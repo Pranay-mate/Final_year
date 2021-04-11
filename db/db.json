@@ -1,0 +1,93 @@
+{
+  "posts": [
+    {
+      "id": "2"
+    },
+    {
+      "id": "5IsEz3L"
+    },
+    {
+      "id": "w22rrId"
+    },
+    {
+      "Fname": "Pranay",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "title": "Web Developer",
+      "id": "1IZ0Eob"
+    },
+    {
+      "Fname": "bhavana",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "id": "kRx4Z-3"
+    },
+    {
+      "Fname": "Amit",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "title": "Web Developer",
+      "id": "lfIdS8s"
+    },
+    {
+      "id": "6DBZxiG"
+    },
+    {
+      "id": "ETFZL_9"
+    },
+    {
+      "id": "kyPbtuf"
+    },
+    {
+      "id": "Bb1s1Qp"
+    },
+    {
+      "id": "-cHcbO2"
+    },
+    {
+      "id": "5majn-L"
+    },
+    {
+      "Fname": "Pranay",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "title": "Web Developer",
+      "id": "qMK3iER"
+    },
+    {
+      "Fname": "Pranay",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "title": "skill",
+      "id": "eC-IdH9"
+    },
+    {
+      "Fname": "bhavana",
+      "Mname": "Arvind",
+      "Lname": "Mate",
+      "EmailId": "matepranay11@gmail.com",
+      "ContactNumber": "7276435142",
+      "Address": "Thane, Mumbai",
+      "id": "eunxre8"
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
