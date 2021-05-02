@@ -20,7 +20,7 @@ export const getSkills = () => async dispatch => {
 
 }
 export const addSkills = userobj => async dispatch => {
-    
+    console.log(userobj)
     try{
         const res = await axios.post(`http://localhost:5000/skills`, userobj)
         dispatch( {
@@ -38,8 +38,11 @@ export const addSkills = userobj => async dispatch => {
 }
 
 export const updateSkills = data => async dispatch => {
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const userId = user.result._id;
+    console.log(data);
     try{
-        const res = await axios.put(`http://localhost:5000/skills/605a21a8678e49540c9cce3f`, data)
+        const res = await axios.put(`http://localhost:5000/skills/`+userId, data)
         dispatch( {
             type: UPDATE_SKILLS,
             payload: res.data

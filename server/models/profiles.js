@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
 
-const postSchema = mongoose.Schema(
+const profileSchema = mongoose.Schema(
     
     {
-        posts: [{
             Fname: String,
             Mname: String,
             Lname: String,
@@ -12,12 +11,10 @@ const postSchema = mongoose.Schema(
             ContactNumber: String,
             Address: String,
             Creator: String
-        }
+    }
  
-    ]
-}
 );
 
-const PostMsg = mongoose.model('PostMsg', postSchema);
+const Profiles = mongoose.model('Profile', profileSchema);
 
-export default PostMsg;
+export default Profiles;

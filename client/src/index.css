@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.delete-modal-button{
+  position: absolute!important;
+  right: 4em;
+  top: 7.5em;
+}
+.delete-modal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.delete-msg{
+  color: white;
+}
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.delete-button{ 
+  margin: 1em 2em;
+}

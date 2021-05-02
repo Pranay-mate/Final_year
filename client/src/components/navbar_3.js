@@ -151,7 +151,7 @@ function Navbar_3() {
                     <ListItemText primary="Skills" />
                 </ListItem>
                 </Link>
-                <Link to="/experince">
+                <Link to="/experiences">
                 <ListItem button primary="Experience">
                     <ListItemIcon>
                          <BsFillBriefcaseFill />

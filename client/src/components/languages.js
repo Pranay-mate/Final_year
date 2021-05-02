@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProfile, updateProfile } from '../redux/profile/profileActions.js';
+import { getLanguage ,addLanguage , updateLanguage, deleteLanguage } from '../redux/language/languageActions.js';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import {  withStyles } from '@material-ui/core';
 
@@ -17,67 +17,206 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 class Languages extends Component {
 
     state = {
-      checkedA: true,
-      checkedB: true
-
     };
-
+    componentDidMount(){
+      this.props.getLanguage()
+    }
     handleTextChange = event => {
-        const {target: {name, value}} = event;
-        this.setState({ [name]: value });
+      console.log(event);
+      const user = JSON.parse(localStorage.getItem('profile'));
+      const {target: {name, value}} = event;
+      this.setState({ [name]: value, _id: user.result._id });
     }
 
     handleOnSubmit = event => {
         event.preventDefault();
-        this.props.addProfile(this.state);
-      //      this.props.updateProfile(this.state);
+        console.log(this.state)
+        this.props.addLanguage(this.state);
+        this.setState({open: false});
+        this.loader();
   
     }
     handleChange = event => {
-      this.setState({ [event.target.name]: event.target.checked });
+      const user = JSON.parse(localStorage.getItem('profile'));
+      const {target: {name, value}} = event;
+      this.setState({ [name]: value, _id: user.result._id });
+      console.log(this.state)
     };
+    handleOpen = () => {
+      this.setState({open: true});
+    };
+  
+    handleClose = () => {
+      this.setState({open: false});
+    };
+    deleteDetails = () => {
+      this.props.deleteLanguage();
+      this.setState({open: false});
+      this.loader();
+    }
+    loader = () => {
+      this.setState({isLoading: true});
+      setInterval(() => {
+      window.location.reload(); 
+      this.setState({isLoading: false});
+      }, 2000);
+    }
   
    
     render(){
-      let menuItems = [];
-      for (let i = 1; i <= 1; i++) {
-        menuItems.push(
+      console.log(this.props)
+      const {languages} = this.props.Languages;
+      console.log(languages)
+
+      if (languages != null && languages != '') {
+        var Language = (
+          <>
+          <React.Fragment>
+            <Typography variant="h6"></Typography>
+            <FormControl className='Language' style={{width: '8em'}}>
+              <InputLabel id="demo-simple-select-helper-label">Language</InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                name="Language"
+                value={languages.Language}
+                onChange={this.handleChange}
+              >
+                <MenuItem value={1}>English</MenuItem>
+                <MenuItem value={2}>French</MenuItem>
+                <MenuItem value={3}>Hindi</MenuItem>
+                <MenuItem value={4}>Marathi</MenuItem>
+              </Select>
+            </FormControl>
+            <Typography variant="h6"></Typography>
+            <FormControl className='Proficiency'>
+              <InputLabel id="demo-simple-select-helper-label">Proficiency</InputLabel>
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                name="Proficiency"
+                value={languages.Proficiency}
+                onChange={this.handleChange}
+              >
+                <MenuItem value={1}>Elementry Proficiency</MenuItem>
+                <MenuItem value={2}>Limited Working Proficiency</MenuItem>
+                <MenuItem value={3}>Full Professional Proficiency</MenuItem>
+                <MenuItem value={4}>Professional Working Proficiency</MenuItem>
+                <MenuItem value={5}>Native or bilingual Proficiency</MenuItem>
+              </Select>
+              <FormHelperText>Language Proficiency</FormHelperText>
+            </FormControl>
+            <Divider />
+            </React.Fragment>
+          </>
+          );
+      }else{
+      var Language = (
         <>
           <Typography variant="h6"></Typography>
-          <TextField name="ProjectName" variant="outlined" label="Language Name" fullWidth margin="dense" value={this.state.ProjectName}  onChange={this.handleTextChange} />
-          <FormControl className=''>
+          <FormControl className='Language' style={{width: '8em'}}>
+            <InputLabel id="demo-simple-select-helper-label">Language</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              name="Language"
+              value={this.state.Language}
+              onChange={this.handleChange}
+            >
+              <MenuItem value={1}>English</MenuItem>
+              <MenuItem value={2}>French</MenuItem>
+              <MenuItem value={3}>Hindi</MenuItem>
+              <MenuItem value={4}>Marathi</MenuItem>
+            </Select>
+          </FormControl>
+          <Typography variant="h6"></Typography>
+          <FormControl className='Proficiency'>
             <InputLabel id="demo-simple-select-helper-label">Proficiency</InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
-              value=''
+              name="Proficiency"
+              value={this.state.Proficiency}
               onChange={this.handleChange}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Elementry Proficiency</MenuItem>
-              <MenuItem value={20}>Limited Working Proficiency</MenuItem>
-              <MenuItem value={30}>Full Professional Proficiency</MenuItem>
-              <MenuItem value={40}>Professional Working Proficiency</MenuItem>
-              <MenuItem value={50}>Native or bilingual Proficiency</MenuItem>
+              <MenuItem value={1}>Elementry Proficiency</MenuItem>
+              <MenuItem value={2}>Limited Working Proficiency</MenuItem>
+              <MenuItem value={3}>Full Professional Proficiency</MenuItem>
+              <MenuItem value={4}>Professional Working Proficiency</MenuItem>
+              <MenuItem value={5}>Native or bilingual Proficiency</MenuItem>
             </Select>
             <FormHelperText>Language Proficiency</FormHelperText>
           </FormControl>
           <Divider />
+          <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
         </>
         );
+      }
          
-       }
         return(
             <div className="form-container">
+              <Button
+                variant="contained"
+                color="secondary"
+                className='delete-modal-button'
+                startIcon={<DeleteIcon />}
+                onClick={this.handleOpen}
+              >
+                Delete
+              </Button>
+              <div>
+                <Modal
+                  aria-labelledby="transition-modal-title"
+                  aria-describedby="transition-modal-description"
+                  className='delete-modal'
+                  open={this.state.open}
+                  onClose={this.state.handleClose}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                    timeout: 500,
+                  }}
+                >
+                  <Fade in={this.state.open}>
+                      <div className='delete-div'>
+                        <h3 id="transition-modal-title" className="delete-msg" >Are you sure you want to delete your certificate's details?</h3>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          className='delete-button'
+                          startIcon={<DeleteIcon />}
+                          onClick={this.deleteDetails}
+                        > Delete
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className='cancel-button'
+                          startIcon={<CancelIcon />}
+                          onClick={this.handleClose}
+                        >
+                          Cancel
+                        </Button>
+                    </div>
+                  </Fade>
+                </Modal>
+              </div>
+              <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
+                <CircularProgress color="inherit" />
+              </Backdrop>
                 <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
                 <Paper className='paper'>
-                {menuItems}
-                <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
+                {Language}
                     {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
                 </Paper>
                 </form>
@@ -87,4 +226,5 @@ class Languages extends Component {
     }
 }
 
-export default connect(null, { addProfile, updateProfile })(Languages);
+const mapStateToProps  = (state) => ({Languages:state.language});
+export default connect(mapStateToProps, { getLanguage, addLanguage, updateLanguage,deleteLanguage })(Languages);

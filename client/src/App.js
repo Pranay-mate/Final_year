@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Link, withRouter, Switch } from "react-router-dom
 
 
 import store from './redux/store';
-import CakeContainer from './components/cakeContainer';
 import Navbar from './components/navbar';
 import ClippedDrawer from './components/navbar_2';
 
@@ -26,7 +25,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import Navbar_3 from './components/navbar_3';
 import Profile from './components/profile';
 import Interest from './components/interests';
-import Experience from './components/experince';
+import Experience from './components/experience';
 import Skills from './components/skills';
 import Education from './components/education';
 import Projects from './components/projects';
@@ -35,6 +34,8 @@ import Languages from './components/languages';
 import Interests from './components/interests';
 import Home from './components/home';
 import Auth from './components/Auth/auth';
+
+
 
 
 const drawerWidth = 240;
@@ -84,7 +85,7 @@ function App() {
           <Route exact path="/profile" render={()=> <Profile></Profile>} />
           <Route path="/education" render={()=>  <Education></Education>} />
           <Route path="/skills" render={()=>  <Skills></Skills>} />
-          <Route path="/experince" render={()=>  <Experience></Experience>} />
+          <Route path="/experiences" render={()=>  <Experience></Experience>} />
           <Route path="/projects" render={()=>  <Projects></Projects>} />
           <Route path="/certificates" render={()=>  <Certificates></Certificates>} />
           <Route path="/languages" render={()=>  <Languages></Languages>} />

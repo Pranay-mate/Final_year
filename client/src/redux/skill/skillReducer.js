@@ -18,12 +18,15 @@ export default function(state = initialState, action){
 
         case ADD_SKILLS:
             const skills = state.skills.concat(action.payload);
-            return {...state, skills};
+        return {...state, skills};
+
         case UPDATE_SKILLS:
-            return{
-                ...state,
-                skills:action.payload
-            }
+        return{
+            ...state,
+            skills:action.payload,
+            loading:false
+
+        }
         default: return state
     }
 

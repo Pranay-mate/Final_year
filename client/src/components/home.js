@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addProfile, updateProfile } from '../redux/profile/profileActions.js';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import {  withStyles } from '@material-ui/core';
+import PDF from './pdf.js'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -14,8 +15,6 @@ import StepLabel from '@material-ui/core/StepLabel';
 class Home extends Component {
 
   state = {
-    checkedA: true,
-    checkedB: true
 
   };
 
@@ -34,13 +33,24 @@ class Home extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
+  pdf = () => {
+    this.props.postPdf()
+  }
  
-    render(){
+  render(){
      
         return(
           <div className="form-container">
-           <h1>HOME Component</h1>
-
+           <h1>Dashboard</h1>
+           <Button
+                variant="contained"
+                color="secondary"
+                className='delete-modal-button'
+                onClick={this.pdf}
+              >
+                PDF
+              </Button>
+              <PDF></PDF>
           </div>
         );
     }
