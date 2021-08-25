@@ -28,6 +28,17 @@
 .nav-item a.active {
   border-left: 4px solid skyblue;
 }
+.brand-Logo{
+  color: white;
+  font-size: 1.4em;
+  font-weight: 700;
+  font-family: -webkit-body;
+  text-decoration: none!important;
+
+}
+.brand-Logo:hover{
+  color: darkgray;
+}
 /*//////////////////////////////////////////material ui sytyles/////////////////////////////////////////////////  */
 
 .root {
@@ -35,7 +46,7 @@
 }
 
 .paper {
-  padding: 5em;
+  padding: 3em 5em 5em 5em;
 }
 
 .fomr {
@@ -60,5 +71,25 @@
   background-color:  #eceff1;
 }
 
+h3{
+  font-weight: 700;
+  font-variant-caps: all-small-caps;
+  font-size: 2.4em;
+  padding-left: 0.2em;
+}
 
+.navlink{
+  text-decoration: none!important;
+  color: skyblue;
+}
 
+.navlink :hover{
+  color: grey;
+}
+.UserName_header{
+  line-height: 2em!important;
+  
+}
+.MuiAvatar-colorDefault{
+  background-color: grey!important;
+}

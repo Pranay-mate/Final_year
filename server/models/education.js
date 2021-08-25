@@ -3,12 +3,13 @@ import mongoose from 'mongoose';
 
 const educationSchema = mongoose.Schema(
     {
-        Program: String,
-        Institude: String,
-        SDate: String,
+        Program:  { type : String, required : true },
+        Institude:  { type : String, required : true },
+        SDate:  { type : String, required : true },
         PresetDate: Boolean,
         EDate: String,
-        InstitudeAdd: String
+        MarksObtained:  { type : String, required : true },
+        userID: String
     }
 );
 

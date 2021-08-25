@@ -1,0 +1,2 @@
+export const GET_SCORE = 'GET_SCORE';
+export const ERROR_DASHBOARD = 'ERROR_DASHBOARD';

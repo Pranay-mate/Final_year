@@ -4,7 +4,7 @@ export const getInterests = async (req, res)=>{
     const { id } = req.params;
     console.log(req.params)
     try {
-        const interests = await Interests.findById(id);
+        const interests = await Interests.find({userID: id});
         console.log(interests)
         res.status(200).json(interests);
     } catch (error) {
@@ -27,12 +27,14 @@ export const addInterests = async (req, res)=>{
 }
 export const updateInterests = async (req, res)=>{
     const { id: _id } = req.params;
-    const interests = req.body;
-    console.log(interests);
+    const interest= req.body;
+    console.log(interest);
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('no interests with id');
-    const updateInterest = await Interests.findByIdAndUpdate(_id, interests, {new: true});
-    res.json(updateInterest);
+    if(!mongoose.Types.ObjectId.isValid(interest.interestID)) return res.status(404).send('no interests with id');
+    const updateInterest = await Interests.findByIdAndUpdate(interest.interestID, interest, {new: true});
+    const interests = await Interests.find({userID: interest.interestID});
+    console.log(interests)
+    res.json(interests);
 
 }
 

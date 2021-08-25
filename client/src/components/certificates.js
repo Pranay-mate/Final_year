@@ -4,87 +4,83 @@ import { addCertificate, updateCertificate, getCertificate, deleteCertificate } 
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import Moment from 'moment';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 
-import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SaveIcon from '@material-ui/icons/Save';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { withStyles } from "@material-ui/core/styles";
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import $ from 'jquery';
 
-
-
-import Loader from './loader.js'
-
-    const useStyles = makeStyles(theme => ({
-      modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-      },backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
-        color: '#fff',
-      },
-}));
 
 class Certificates extends Component {
 
    
     state = {
-      isLoading: true
+      newCertificate: [],
+      formState: 'ADD',
     };
     componentDidMount(){
       this.props.getCertificate()
-      this.setState({isLoading: false})
+      this.setState({certificates: this.props.Certificate});
     }
     
 
     handleTextChange = event => {
+
       const user = JSON.parse(localStorage.getItem('profile'))
       const {target: {name, value}} = event;
       this.setState({ [name]: value, _id: user.result._id });
-    }
+
+      if(this.state.formState == 'UPDATE'){
+        this.setState({ newCertificate:{...this.state.newCertificate, [name]: value, userID: user.result._id,  CertiName: this.state.CertiName,  Description: this.state.Description, SDate: this.state.SDate, EDate: this.state.EDate}, [name]: value});
+        console.log('update');
+      }else{
+        this.setState({ newCertificate:{...this.state.newCertificate, [name]: value, userID: user.result._id }, [name]: value});
+      }
+  
+      console.log(this.state.newCertificate)
+    };
 
     handleOnSubmit = event => {
-        event.preventDefault();
-        this.props.addCertificate(this.state);
-        this.loader();
+      event.preventDefault();
+      
+      const certificateID = $(".form_container.certificate").attr('id');
+      if (typeof(certificateID) != 'undefined' && certificateID != '') {
+       this.props.updateCertificate(this.state.newCertificate);
+      }else{
+       this.props.addCertificate(this.state.newCertificate);
+      }
+      this.props.getCertificate();
+      this.loader();
+      console.log(this.state)
+  
     }
+
     checkboxClick = event => {
       this.setState({ [event.target.name]: event.target.checked });
       const currDate = Moment().format('DD-MM-YYYY');
       if(event.target.checked){
-        this.setState({
-         EDate: currDate
-        });
+        this.setState({ newCertificate:{ EDate: currDate }, });
       }
+      console.log(this.state)
     };
-    handleOpen = () => {
-      this.setState({open: true});
+
+    editCertificate = (_certificate) => {
+      this.setState({certificateID: _certificate._id, CertiName: _certificate.CertiName,  Description: _certificate.Description, SDate: _certificate.SDate, EDate: _certificate.EDate }); //for add language in input
+
+      this.setState({ newCertificate:{ certificateID: _certificate._id} });
+      this.setState({formState: "UPDATE"});
+
+      console.log(this.state.newCertificate)
     };
-  
-    handleClose = () => {
-      this.setState({open: false});
-    };
-    deleteDetails = () => {
-      this.props.deleteCertificate();
-      this.setState({open: false});
+
+    deleteCertificate = (_id) => {
+      this.setState({ deleteCertificate: _id });
+
+      this.props.deleteCertificate(_id);
       this.loader();
     }
     loader = () => {
@@ -99,98 +95,60 @@ class Certificates extends Component {
         'z-index': "1201",
       };
       const {certificates} = this.props.Certificate;
-      console.log(certificates);
-
-      if (certificates != null && certificates != '') {
-        var certificateDiv = (
-          <>
-          <React.Fragment>
-            <Typography variant="h6"></Typography>
-            <TextField name="CertiName" variant="outlined" label="Certicates Name" fullWidth margin="dense" value={certificates.CertiName}  onChange={this.handleTextChange} />
-            <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={certificates.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-            <FormControlLabel control={<Switch  onChange={this.checkboxClick} name="PresetDate" checked={certificates.PresetDate} color="primary" />} label="Present" />
-             { !certificates.PresetDate ?<TextField name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={certificates.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
-            <TextField name="Description" variant="outlined" label="Description" fullWidth margin="dense" onChange={this.handleTextChange} value={certificates.Description} />
-            <Divider />
-            </React.Fragment>
-          </>
-        );
-      }else{
-        var certificateDiv = (
-          <>
-            <Typography variant="h6"></Typography>
-            <TextField name="CertiName" variant="outlined" label="Certicates Name" fullWidth margin="dense" value={this.state.CertiName}  onChange={this.handleTextChange} />
-            <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-            <FormControlLabel control={<Switch onChange={this.checkboxClick} name="PresetDate" color="primary" />} label="Present" />
-            { !this.state.PresetDate ?<TextField name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null}
-            <TextField name="Description" variant="outlined" label="Description" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.Description} />
-            <Divider />
-            <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
-
-          </>
-        );
-
-      }
-      
          
         return(
             <div className="form-container">
-              <Button
-                variant="contained"
-                color="secondary"
-                className='delete-modal-button'
-                startIcon={<DeleteIcon />}
-                onClick={this.handleOpen}
-              >
-                Delete
-              </Button>
-              <div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className='delete-modal'
-                  open={this.state.open}
-                  onClose={this.state.handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={this.state.open}>
-                      <div className='delete-div'>
-                        <h3 id="transition-modal-title" className="delete-msg" >Are you sure you want to delete your certificate's details?</h3>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          className='delete-button'
-                          startIcon={<DeleteIcon />}
-                          onClick={this.deleteDetails}
-                        > Delete
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className='cancel-button'
-                          startIcon={<CancelIcon />}
-                          onClick={this.handleClose}
-                        >
-                          Cancel
-                        </Button>
-                    </div>
-                  </Fade>
-                </Modal>
-              </div>
               <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
                 <CircularProgress color="inherit" />
               </Backdrop>
+              <Paper className='paper'>
+              <h3>{this.state.formState} CERTIFICATE</h3>
 
-                <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
-                <Paper className='paper'>
-                {certificateDiv}
-                    {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
-                </Paper>
+                <form autoComplete="off" noValidate className='fomr form_container certificate' onSubmit={this.handleOnSubmit} id={this.state.certificateID}>
+                <Typography variant="h6"></Typography>
+                <TextField InputLabelProps={{ shrink: true }} InputLabelProps={{ shrink: true }} name="CertiName" variant="outlined" label="Certicates Name" fullWidth margin="dense" value={this.state.CertiName}  onChange={this.handleTextChange} />
+                <TextField InputLabelProps={{ shrink: true }} name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
+                <TextField InputLabelProps={{ shrink: true }} name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
+                <TextField InputLabelProps={{ shrink: true }} name="Description" variant="outlined" label="Description" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.Description} />
+                <Divider />
+                <Button startIcon={<SaveIcon />}  className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
+
                 </form>
+
+                  <table class="table mt-4">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Certificate Name</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">End Date</th>
+                      <th scope="col">Update</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {certificates.map(
+                        (certificate,i) =>
+                        <tr>
+                          <th scope={certificate.id}>{++i}</th>
+                          <td>{certificate.CertiName}</td>
+                          <td>{certificate.Description}</td>
+                          <td>{certificate.SDate}</td>
+                          <td>{certificate.EDate}</td>
+                          <td>
+                          <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={()=> this.editCertificate(certificate)} >Edit</Button>
+                          </td>
+                          <td>
+                          <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={()=>this.deleteCertificate(certificate._id)} >Delete</Button>
+                          </td>
+                        </tr>
+                           
+                    )}
+                   
+                  </tbody>
+                </table>
+                </Paper>
             </div>
         );
     }

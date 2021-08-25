@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
       background : 'black',
       color: 'white',
       flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0px 10px',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: '0px 10px',
     },
     drawer: {
       width: drawerWidth,
@@ -40,8 +40,10 @@ const useStyles = makeStyles((theme) => ({
     profile: {
         display: 'flex',
         justifyContent: 'space-between',
-        width: '400px',
-
+        position: 'fixed',
+        right: '1em',
+        marginLeft: 'auto',
+        height: '2.5em'
       },
       image: {
         marginLeft: '15px',
@@ -80,23 +82,24 @@ const Header = () => {
          <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
             <Typography variant="h6" noWrap>
-              <Link to='/'>
+              <Link to='/' className="brand-Logo">
                   AI Resume
               </Link>
             </Typography>
-
             {user?.result ? (
-              <div className={classes.profile}>
+              <div className={classes.profile} style={{width: '300px'}}>
                 <Avatar className={classes.purple} alt={user?.result.name} src={user?.result.imageUrl}>{user?.result.name.charAt(0)}</Avatar>
-                <Typography className={classes.userName} variant="h6">{user?.result.name}</Typography>
+                <Typography variant="h6" className="UserName_header" >{user?.result.name}</Typography>
                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
               </div>
             ) : (
-              <Link to="/auth">
-                <Button variant="contained" color="primary">Sign In</Button>
-              </Link>
+              <div className={classes.profile}>
+                <Link to="/auth" >
+                  <Button  variant="contained" color="primary">Sign In</Button>
+                </Link>
+              </div>
+
             )}
-           
             </Toolbar>
         </AppBar>
   );

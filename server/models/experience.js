@@ -3,14 +3,16 @@ import mongoose from 'mongoose';
 
 const experinceSchema = mongoose.Schema(
     {
-        Title: String,
-        Workplace: String,
-        SDate: String,
-        EDate: String,
+        Title: { type : String, required : true },
+        Workplace: { type : String, required : true },
+        SDate: { type : String, required : true },
+        EDate: { type : String, required : true },
         PresetDate: Boolean,
         WorkplaceAdd: String,
         Achievements: String,
-        ContactInfo: String
+        ContactInfo: String,
+        userID: String,
+
     }
 );
 

@@ -4,7 +4,7 @@ export const getProjects = async (req, res)=>{
     const { id } = req.params;
     console.log(req.params)
     try {
-        const projects = await Projects.findById(id);
+        const projects = await Projects.find({userID: id});
         console.log(projects)
         res.status(200).json(projects);
     } catch (error) {
@@ -27,12 +27,13 @@ export const addProjects = async (req, res)=>{
 }
 export const updateProjects = async (req, res)=>{
     const { id: _id } = req.params;
-    const projects = req.body;
-    console.log(projects);
+    const project = req.body;
+    console.log(project);
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('no project with id');
-    const updateProject = await Projects.findByIdAndUpdate(_id, projects, {new: true});
-    res.json(updateProject);
+    if(!mongoose.Types.ObjectId.isValid(project.projectID)) return res.status(404).send('no project with id');
+    const updateProject = await Projects.findByIdAndUpdate(project.projectID, project, {new: true});
+    const projects = await Projects.find({userID: project.projectID});
+    res.status(200).json(projects);
 
 }
 export const deleteProjects = async (req, res)=>{

@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 
 const projectSchema = mongoose.Schema(
     {
-        ProjectName: String,
-        SDate: String,
+        ProjectName: { type : String, required : true },
         PresetDate: Boolean,
-        EDate: String,
-        Description: String
+        SDate: { type : String, required : true },
+        EDate:  { type : String, required : true },
+        Description:  { type : String, required : true },
+        userID: { type : String, required : true },
     }
 );
 

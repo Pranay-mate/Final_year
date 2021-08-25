@@ -5,7 +5,7 @@ export const getExperience = async (req, res)=>{
     const { id } = req.params;
     console.log(req.params)
     try {
-        const experiences = await Experiences.findById(id);
+        const experiences = await Experiences.find({userID: id});
         console.log(experiences)
         res.status(200).json(experiences);
     } catch (error) {
@@ -29,12 +29,14 @@ export const addExperience = async (req, res)=>{
 }
 export const updateExperience = async (req, res)=>{
     const { id: _id } = req.params;
-    const experiences = req.body;
-    console.log(experiences);
+    const experience = req.body;
+    console.log(experience);
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('no educations with id');
-    const updateExperiences = await Experiences.findByIdAndUpdate(_id, experiences, {new: true});
-    res.json(updateExperiences);
+    if(!mongoose.Types.ObjectId.isValid(experience.experienceID)) return res.status(404).send('no educations with id');
+    const updateExperiences = await Experiences.findByIdAndUpdate(experience.experienceID, experience, {new: true});
+    const experiences = await  Experiences.find({userID: experience.experienceID});
+    console.log(experiences)
+    res.status(200).json(experiences);
 
 }
 

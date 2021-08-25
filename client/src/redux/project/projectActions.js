@@ -1,8 +1,12 @@
 import {GET_PROJECTS, ADD_PROJECTS, UPDATE_PROJECTS, PROJECTS_ERROR, DELETE_PROJECTS} from './projectTypes.js'
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 
 export const getProjects = () => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
+    if (user == null){
+        window.location.href = '/auth';
+    }
     const userId = user.result._id;
     try{
         const res = await axios.get(`http://localhost:5000/projects/`+userId)
@@ -17,6 +21,7 @@ export const getProjects = () => async dispatch => {
             type: PROJECTS_ERROR,
             payload: console.log(e)
         })
+        toast.error("Error! Please contact with IT Team");
     }
 }
 
@@ -29,12 +34,14 @@ export const addProjects = userobj => async dispatch => {
             type: ADD_PROJECTS,
             payload: res.data
         })
+        toast.success("Project added Succesfully");
     }
     catch(e){
         dispatch( {
             type: PROJECTS_ERROR,
             payload: console.log(e)
         })
+        toast.error("Error! Please contact with IT Team");
     }
 
 }
@@ -43,34 +50,40 @@ export const deleteProjects = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/projects/`+userId)
+        const res = await axios.delete(`http://localhost:5000/projects/`+data)
         dispatch( {
             type: DELETE_PROJECTS,
             payload: res.data
         })
+        toast.success("Project deleted Succesfully");
     }
     catch(e){
         dispatch( {
             type: PROJECTS_ERROR,
             payload: console.log(e),
         })
+        toast.error("Error! Please contact with IT Team");
     }
 
 }
 
 export const updateProjects = data => async dispatch => {
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const userId = user.result._id;
     try{
-        const res = await axios.put(`http://localhost:5000/projects/605a21a8678e49540c9cce3f`, data)
+        const res = await axios.put(`http://localhost:5000/projects/`+userId, data)
         dispatch( {
             type: UPDATE_PROJECTS,
             payload: res.data
         })
+        toast.success("Project updated Succesfully");
     }
     catch(e){
         dispatch( {
             type: PROJECTS_ERROR,
             payload: console.log(e)
         })
+        toast.error("Error! Please contact with IT Team");
     }
 
 }

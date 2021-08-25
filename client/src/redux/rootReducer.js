@@ -8,6 +8,7 @@ import languageReducer from './language/languageReducer';
 import experienceReducer from './experience/experienceReducer';
 import projectReducer from './project/projectReducer';
 import certificateReducer from "./certificate/certificateReducer";
+import dashboardReducer from "./dashboard/dashboardReducer";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     interests: interestReducer,
     experiences: experienceReducer,
     projects: projectReducer,
-    certificates: certificateReducer
+    certificates: certificateReducer,
+    score: dashboardReducer,
   })
 
 export default rootReducer;

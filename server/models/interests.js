@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 
 const interestSchema = mongoose.Schema(
     {
-        Interest: String,
+        interest:  { type : String, required : true },
+        userID: String,
     }
 );
 

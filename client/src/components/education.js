@@ -2,66 +2,83 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addEducation, updateEducation, getEducation, deleteEducation } from '../redux/education/educationActions';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import {  withStyles } from '@material-ui/core';
 import Moment from 'moment';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 
-import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SaveIcon from '@material-ui/icons/Save';
+import $ from 'jquery';
 
 class Education extends Component {
 
     state = {
+      newEducation: [],
+      formState: 'ADD',
     };
     componentDidMount(){
       this.props.getEducation()
+      this.setState({projects: this.props.Project});
+  
+      this.setState({isLoading: false})
     }
-
+  
     handleTextChange = event => {
-      const user = JSON.parse(localStorage.getItem('profile'))
-      const {target: {name, value}} = event;
-      this.setState({ [name]: value, _id: user.result._id });
-    }
+      event.preventDefault();
 
+      const user = JSON.parse(localStorage.getItem('profile'))
+        const {target: {name, value}} = event;
+        this.setState({ [name]: value, _id: user.result._id });
+  
+        if(this.state.formState == 'UPDATE'){
+          this.setState({ newEducation:{...this.state.newEducation, [name]: value, userID: user.result._id,  Program: this.state.Program,  Institude: this.state.Institude, SDate: this.state.SDate, EDate: this.state.EDate, MarksObtained: this.state.MarksObtained}, [name]: value});
+          console.log('update');
+        }else{
+          this.setState({ newEducation:{...this.state.newEducation, [name]: value, userID: user.result._id }, [name]: value});
+        }
+    
+        console.log(this.state.newEducation)
+    }
+  
     handleOnSubmit = event => {
-        event.preventDefault();
-        this.props.addEducation(this.state);
-        this.loader();
-      //      this.props.updateProfile(this.state);
+      event.preventDefault();
+      
+      const educationID = $(".form_container.education").attr('id');
+      if (typeof(educationID) != 'undefined' && educationID != '') {
+       this.props.updateEducation(this.state.newEducation);
+      }else{
+       this.props.addEducation(this.state.newEducation);
+      }
+      this.props.getEducation();
+      this.loader();
+      console.log(this.state)
   
     }
+  
     checkboxClick = event => {
-    
       this.setState({ [event.target.name]: event.target.checked });
       const currDate = Moment().format('DD-MM-YYYY');
       if(event.target.checked){
-        this.setState({EDate: currDate});
-      }else{
-        this.setState({EDate: undefined});
+        this.setState({ newEducation:{ EDate: currDate }, });
       }
       console.log(this.state)
-
-    };
-    handleOpen = () => {
-      this.setState({open: true});
     };
   
-    handleClose = () => {
-      this.setState({open: false});
+    editEducation = (_education) => {
+      this.setState({educationID: _education._id, Program: _education.Program,  Institude: _education.Institude, SDate: _education.SDate, EDate: _education.EDate, MarksObtained: _education.MarksObtained }); //for add language in input
+  
+      this.setState({ newEducation:{ educationID: _education._id} });
+      this.setState({formState: "UPDATE"});
+  
+      console.log(this.state.newEducation)
     };
-    deleteDetails = () => {
-      this.props.deleteEducation();
-      this.setState({open: false});
+
+    deleteEducation = (_id) => {
+      this.props.deleteEducation(_id);
       this.loader();
     }
     loader = () => {
@@ -76,97 +93,61 @@ class Education extends Component {
     render(){
       const {educations} = this.props.Education;
       console.log(educations)
-        
-      if (educations != null && educations != '') {
-
-        var education = (
-        <>
-           <React.Fragment>
-          <Typography variant="h6"></Typography>
-          <TextField name="Program" variant="outlined" label="Study Program" fullWidth margin="dense" value={educations.Program}  onChange={this.handleTextChange} />
-          <TextField name="Institude" variant="outlined" label="Institude" fullWidth margin="dense" value={educations.Institude }  onChange={this.handleTextChange} />
-          <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={educations.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-          <FormControlLabel control={<Switch  onChange={this.checkboxClick} name="PresetDate" checked={educations.PresetDate} color="primary" />} label="Present" />
-          { !educations.PresetDate ? <TextField name="EDate" variant="outlined"  label="End Date" type="date" fullWidth margin="dense" value={educations.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
-          <TextField name="InstitudeAdd" variant="outlined" label="Institude Address" fullWidth margin="dense" onChange={this.handleTextChange} value={educations.InstitudeAdd} />
-          </React.Fragment>
-        </>
-      );
-      }else{
-        var education = (
-          <>
-            <Typography variant="h6"></Typography>
-            <TextField name="Program" variant="outlined" label="Study Program" fullWidth margin="dense" value={this.state.Program}  onChange={this.handleTextChange} />
-            <TextField name="Institude" variant="outlined" label="Institude" fullWidth margin="dense" value={this.state.Institude }  onChange={this.handleTextChange} />
-            <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-            <FormControlLabel control={<Switch onChange={this.checkboxClick} name="PresetDate" color="primary" />} label="Present" />
-            { !this.state.PresetDate ? <TextField name="EDate" variant="outlined"  label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
-            <TextField name="InstitudeAdd" variant="outlined" label="Institude Address" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.InstitudeAdd} />
-            <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
-          </>
-        );
-      }
-
-         
         return(
             <div className="form-container">
-              <Button
-                variant="contained"
-                color="secondary"
-                className='delete-modal-button'
-                startIcon={<DeleteIcon />}
-                onClick={this.handleOpen}
-              >
-                Delete
-              </Button>
-              <div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className='delete-modal'
-                  open={this.state.open}
-                  onClose={this.state.handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={this.state.open}>
-                      <div className='delete-div'>
-                        <h3 id="transition-modal-title" className="delete-msg" >Are you sure you want to delete your certificate's details?</h3>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          className='delete-button'
-                          startIcon={<DeleteIcon />}
-                          onClick={this.deleteDetails}
-                        > Delete
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className='cancel-button'
-                          startIcon={<CancelIcon />}
-                          onClick={this.handleClose}
-                        >
-                          Cancel
-                        </Button>
-                    </div>
-                  </Fade>
-                </Modal>
-              </div>
               <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
                 <CircularProgress color="inherit" />
               </Backdrop>
-
-
-                <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
                 <Paper className='paper'>
-                {education}
-                {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
+                 <h3>{this.state.formState} EDUCATION</h3>
+
+                  <form autoComplete="off" noValidate className='fomr form_container education' id={this.state.educationID} onSubmit={this.handleOnSubmit}>
+                    <Typography variant="h6"></Typography>
+                    <TextField InputLabelProps={{ shrink: true }} name="Program" variant="outlined" label="Study Program" fullWidth margin="dense" value={this.state.Program}  onChange={this.handleTextChange} />
+                    <TextField InputLabelProps={{ shrink: true }} name="Institude" variant="outlined" label="Institude" fullWidth margin="dense" value={this.state.Institude }  onChange={this.handleTextChange} />
+                    <TextField InputLabelProps={{ shrink: true }} name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
+                    <FormControlLabel control={<Switch onChange={this.checkboxClick} name="PresetDate" color="primary" />} label="Present" />
+                    { !this.state.PresetDate ? <TextField InputLabelProps={{ shrink: true }} name="EDate" variant="outlined"  label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
+                    <TextField InputLabelProps={{ shrink: true }} name="MarksObtained" variant="outlined" label="Marks Obtaied (Avg)" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.MarksObtained} />
+                    <Button  startIcon={<SaveIcon />} className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
+                  </form>
+
+                  <table class="table mt-4">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Program</th>
+                        <th scope="col">Institude</th>
+                        <th scope="col">Marks Obtaied (%)</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {educations.map(
+                          (education,i) =>
+                          <tr>
+                            <th scope={education.id}>{++i}</th>
+                            <td>{education.Program}</td>
+                            <td>{education.Institude}</td>
+                            <td>{education.MarksObtained}</td>
+                            <td>{education.SDate}</td>
+                            <td>{education.EDate}</td>
+                            <td>
+                              <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={()=> this.editEducation(education)} >Edit</Button>
+                            </td>
+                            <td>
+                             <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={()=> this.deleteEducation(education._id)} >Delete</Button>
+                            </td>
+                          </tr>
+                            
+                      )}
+                    
+                    </tbody>
+                  </table>
                 </Paper>
-                </form>
 
             </div>
         );

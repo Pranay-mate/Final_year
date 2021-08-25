@@ -1,100 +1,135 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getSkills, addSkills, updateSkills } from '../redux/skill/skillActions.js';
+import { getSkills, addSkills, updateSkills, deleteSkills } from '../redux/skill/skillActions.js';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import {  withStyles } from '@material-ui/core';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import { $CombinedState } from 'redux';
+
+import $ from 'jquery';
+
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 
 class Skills extends Component {
-
-  state = {};
-  
-  componentDidMount(){
+  state= {
+    newSkill: [],
+    formState: 'ADD'
+  }
+  componentDidMount(){  
       this.props.getSkills();
+      this.setState({
+        skills: this.props.Skills
+    });
+    
+  }
+
+  loader = () => {
+    this.setState({isLoading: true});
+    setInterval(() => {
+    window.location.reload(); 
+    this.setState({isLoading: false});
+    }, 1000);
   }
 
   handleTextChange = event => {
+    event.preventDefault();
+    this.setState({skill: event.target.value})
     const user = JSON.parse(localStorage.getItem('profile'))
     const {target: {name, value}} = event;
-    if (this.props.Skills.skills.length == 0) {
-      this.setState({ [name]: value, _id: user.result._id });
+
+    if(this.state.formState == 'UPDATE'){
+      this.setState({ newSkill:{[name]: value, userID: user.result._id, skillId: this.state.skillId }});
     }else{
-      this.setState({ [name]: value });
+      this.setState({ newSkill:{[name]: value, userID: user.result._id }});
     }
-    console.log(value)
+
     console.log(this.state)
-
-
   }
+  editSkill = (_id,_skill) => {
+    this.setState({skillId: _id }); //for add ID in html
+    this.setState({ skill: _skill }); //for add skill in input
+    
 
-  handleOnSubmit = event => {
-      event.preventDefault();
-      if (this.props.Skills.skills.length == 0) {
-       this.props.addSkills(this.state);
-      }else{
-       this.props.updateSkills(this.state);
-      }
-      console.log(this.state)
-      // this.props.updateProfile(this.state);
-  }
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.checked });
+    this.setState({ newSkill:{skillId: _id} });
+    this.setState({formState: "UPDATE"});
   };
 
+  deleteSkill = (_id) => {
+    this.setState({ deleteSkill: _id });
+    this.props.deleteSkills(_id);
+    this.loader();
+  };
+
+
+  handleOnSubmit = event => {
+    event.preventDefault();
+    
+    const skillID = $(".form_container.skill").attr('id');
+    if (typeof(skillID) != 'undefined' && skillID != '') {
+     this.props.updateSkills(this.state.newSkill);
+    }else{
+     this.props.addSkills(this.state.newSkill);
+    }
+    this.props.getSkills();
+    this.loader();
+    console.log(this.state)
+  }
  
     render(){
-      const {skills} = this.props.Skills
-      var skillsArray = [];
-      console.log(skills)
-      if (!Array.isArray(skills)) {
-        var skillsArray = new Array;
-        skillsArray.push(skills)
-      }else{
-        skillsArray = skills;
-      }
-      let skillsInputs = [];
+       const {skills} = this.props.Skills;
+       
+      // var skillsArray = [];
+       console.log(skills)
 
-        if (skills.length != 0) {
-          skillsInputs.push(
-            <>
-              {skillsArray.map(u => 
-                    <React.Fragment key={u.id}>
-                        <Typography variant="h6"></Typography>
-                          <TextField name="skill-1" variant="outlined" label="skill" fullWidth margin="dense" value={u.skill}  onChange={this.handleTextChange} />
-                    </React.Fragment>
-              )}
-            
-            </>
-            );
-        }
-        
-
-        return(
+       return(
           <div className="form-container">
-            <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
             <Paper className='paper'>
-            {skillsInputs}
-            <TextField name="skill-2" variant="outlined" label="skill" fullWidth margin="dense"  onChange={this.handleTextChange} />
-           
+            <h3>{this.state.formState} SKILL</h3>
+            <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
+            <div className='form_container skill' id={this.state.skillId}>
+            <React.Fragment >
+                <Typography variant="h6"></Typography>
+                  <TextField InputLabelProps={{ shrink: true }} name="skill" id="skill" variant="outlined" label="skill" fullWidth margin="dense" value={this.state.skill}  onChange={this.handleTextChange} />
+            </React.Fragment>
              <Divider />
+            </div>
 
-            <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
-                {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
-            </Paper>
+            <Button  startIcon={<SaveIcon />} className='btn btn-dark' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
             </form>
 
+                {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
+                <table class="table mt-4">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Skill</th>
+                      <th scope="col">Update</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {skills.map(
+                        (skill,i) =>
+                        <tr>
+                          <th scope={skill.id}>{++i}</th>
+                          <td>{skill.skill}</td>
+                          <td>
+                           <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={()=> this.editSkill(skill._id,skill.skill)} >Edit</Button>
+                          </td>
+                          <td>
+                           <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={()=> this.deleteSkill(skill._id)} >Delete</Button>
+                          </td>
+                        </tr>
+                    )}
+                   
+                  </tbody>
+                </table>
+            </Paper>
+            
           </div>
         );
 }
 }
 const mapStateToProps  = (state) => ({Skills:state.skills})
 
-export default connect(mapStateToProps, { getSkills, addSkills, updateSkills })(Skills);
+export default connect(mapStateToProps, { getSkills, addSkills, updateSkills, deleteSkills })(Skills);

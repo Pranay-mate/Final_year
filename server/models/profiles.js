@@ -8,9 +8,11 @@ const profileSchema = mongoose.Schema(
             Lname: String,
             title: String,
             EmailId: String,
+            JobTitle: String,
             ContactNumber: String,
             Address: String,
-            Creator: String
+            Creator: String,
+            userID: String,
     }
  
 );

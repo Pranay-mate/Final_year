@@ -2,67 +2,88 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addExperience, updateExperience, getExperience, deleteExperience } from '../redux/experience/experienceActions.js';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import {  withStyles } from '@material-ui/core';
 import Moment from 'moment';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 
-import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SaveIcon from '@material-ui/icons/Save';
+import $ from 'jquery';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 class Experiences extends Component {
 
-    state = {
-    };
-    componentDidMount(){
-      this.props.getExperience()
-      this.setState({isLoading: false});
+  state = {
+    newExperience: [],
+    formState: 'ADD',
+  };
+  componentDidMount(){
+    this.props.getExperience()
+    this.setState({experiences: this.props.Experience});
 
-    }
+    this.setState({isLoading: false})
+  }
 
-    handleTextChange = event => {
-      const user = JSON.parse(localStorage.getItem('profile'))
+  handleTextChange = event => {
+    const user = JSON.parse(localStorage.getItem('profile'))
       const {target: {name, value}} = event;
       this.setState({ [name]: value, _id: user.result._id });
-    }
 
-    handleOnSubmit = event => {
-        event.preventDefault();
-        this.props.addExperience(this.state);
-        this.loader();
-      //      this.props.updateProfile(this.state);
-  
-    }
-    checkboxClick = event => {
-      this.setState({ [event.target.name]: event.target.checked });
-      const currDate = Moment().format('DD-MM-YYYY');
-      if(event.target.checked){
-        this.setState({EDate: currDate});
+      if(this.state.formState == 'UPDATE'){
+        this.setState({ newExperience:{...this.state.newExperience, [name]: value, userID: user.result._id,  ProjectName: this.state.ProjectName,  Description: this.state.Description, SDate: this.state.SDate, EDate: this.state.EDate}, [name]: value});
+        console.log('update');
       }else{
-        this.setState({EDate: undefined});
+        this.setState({ newExperience:{...this.state.newExperience, [name]: value, userID: user.result._id }, [name]: value});
       }
-      console.log(this.state)
-
-    };
-    handleOpen = () => {
-      this.setState({open: true});
-    };
   
-    handleClose = () => {
-      this.setState({open: false});
-    };
-    deleteDetails = () => {
-      this.props.deleteExperience();
-      this.setState({open: false});
+      console.log(this.state.newExperience)
+  }
+
+  handleOnSubmit = event => {
+    event.preventDefault();
+    
+    const experienceID = $(".form_container.experience").attr('id');
+    if (typeof(experienceID) != 'undefined' && experienceID != '') {
+     this.props.updateExperience(this.state.newExperience);
+    }else{
+     this.props.addExperience(this.state.newExperience);
+    }
+    this.props.getExperience();
+    this.loader();
+    console.log(this.state)
+
+  }
+
+  checkboxClick = event => {
+    this.setState({ [event.target.name]: event.target.checked });
+    const currDate = Moment().format('DD-MM-YYYY');
+    if(event.target.checked){
+      this.setState({ newExperience:{ EDate: currDate }, });
+    }
+    console.log(this.state)
+  };
+
+  editExperience = (_experience) => {
+    
+    this.setState({experienceID: _experience._id, Title: _experience.Title,  Workplace: _experience.Workplace, SDate: _experience.SDate, EDate: _experience.EDate, WorkplaceAdd: _experience.WorkplaceAdd , Achievements: _experience.Achievements, ContactInfo: _experience.ContactInfo }); //for add language in input
+
+    this.setState({ newExperience:{ experienceID: _experience._id} });
+    
+    this.setState({formState: "UPDATE"});
+
+    console.log(this.state)
+    console.log(this.state.newExperience)
+  };
+
+    deleteExperience = (_id) => {
+     this.setState({ deleteExperience: _id });
+      this.props.deleteExperience(_id);
+
       this.loader();
     }
     loader = () => {
@@ -77,100 +98,61 @@ class Experiences extends Component {
       const {experiences} = this.props.Experience;
       console.log(experiences);
 
-      if (experiences != null && experiences != '') {
-        var experienceDiv = (
-          <>
-          <React.Fragment>
-            <Typography variant="h6"></Typography>
-            <TextField name="Title" variant="outlined" label="Title/Position" fullWidth margin="dense" value={experiences.Title}  onChange={this.handleTextChange} />
-            <TextField name="Workplace" variant="outlined" label="Workplace/Company" fullWidth margin="dense" value={experiences.Workplace }  onChange={this.handleTextChange} />
-            <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={experiences.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-            <FormControlLabel control={<Switch  onChange={this.checkboxClick} name="PresetDate" checked={experiences.PresetDate} color="primary" />} label="Present" />
-            { !experiences.PresetDate ? <TextField name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={experiences.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
-            <TextField name="WorkplaceAdd" variant="outlined" label="Workplace Address" fullWidth margin="dense" onChange={this.handleTextChange} value={experiences.WorkplaceAdd} />
-            <TextField name="Achievements" variant="outlined" label="Accomplishment/Responsibility/Task" fullWidth margin="dense" onChange={this.handleTextChange} value={experiences.Achievements} />
-            <TextField name="ContactInfo" variant="outlined" label="Contact Info" fullWidth margin="dense" onChange={this.handleTextChange} value={experiences.ContactInfo} />
-            <Divider />
-          </React.Fragment>
-          </>
-        );
-      }else{
-        var experienceDiv = (
-          <>
-            <Typography variant="h6"></Typography>
-            <TextField name="Title" variant="outlined" label="Title/Position" fullWidth margin="dense" value={this.state.Program}  onChange={this.handleTextChange} />
-            <TextField name="Workplace" variant="outlined" label="Workplace/Company" fullWidth margin="dense" value={this.state.Institude }  onChange={this.handleTextChange} />
-            <TextField name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
-            <FormControlLabel control={<Switch onChange={this.checkboxClick} name="PresetDate" color="primary" />} label="Present" />
-            { !this.state.PresetDate ? <TextField name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
-            <TextField name="WorkplaceAdd" variant="outlined" label="Workplace Address" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.WorkplaceAdd} />
-            <TextField name="Achievements" variant="outlined" label="Accomplishment/Responsibility/Task" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.InstitudeAdd} />
-            <TextField name="ContactInfo" variant="outlined" label="Contact Info" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.ContactInfo} />
-            <Divider />
-            <Button className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
-          </>
-        );
-      }
-
         return(
             <div className="form-container">
-              <Button
-                variant="contained"
-                color="secondary"
-                className='delete-modal-button'
-                startIcon={<DeleteIcon />}
-                onClick={this.handleOpen}
-              >
-                Delete
-              </Button>
-              <div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className='delete-modal'
-                  open={this.state.open}
-                  onClose={this.state.handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Fade in={this.state.open}>
-                      <div className='delete-div'>
-                        <h3 id="transition-modal-title" className="delete-msg" >Are you sure you want to delete your certificate's details?</h3>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          className='delete-button'
-                          startIcon={<DeleteIcon />}
-                          onClick={this.deleteDetails}
-                        > Delete
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className='cancel-button'
-                          startIcon={<CancelIcon />}
-                          onClick={this.handleClose}
-                        >
-                          Cancel
-                        </Button>
-                    </div>
-                  </Fade>
-                </Modal>
-              </div>
-              <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
-                <CircularProgress color="inherit" />
-              </Backdrop>
-
-
-                <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
+                <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
+                  <CircularProgress color="inherit" />
+                </Backdrop>
                 <Paper className='paper'>
-                {experienceDiv}
-                    {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
-                </Paper>
+               <h3>{this.state.formState} EXPERIENCE</h3>
+
+                <form autoComplete="off" noValidate className='fomr form_container experience' id={this.state.experienceID} onSubmit={this.handleOnSubmit}>
+                  <Typography variant="h6"></Typography>
+                  <TextField InputLabelProps={{ shrink: true }} name="Title" variant="outlined" label="Title/Position" fullWidth margin="dense" value={this.state.Title}  onChange={this.handleTextChange} />
+                  <TextField InputLabelProps={{ shrink: true }} name="Workplace" variant="outlined" label="Workplace/Company" fullWidth margin="dense" value={this.state.Workplace }  onChange={this.handleTextChange} />
+                  <TextField InputLabelProps={{ shrink: true }} name="SDate" variant="outlined" label="Start Date" type="date" fullWidth margin="dense" value={this.state.SDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />
+                  <FormControlLabel control={<Switch onChange={this.checkboxClick} name="PresetDate" color="primary" />} label="Present" />
+                  { !this.state.PresetDate ? <TextField InputLabelProps={{ shrink: true }} name="EDate" variant="outlined" label="End Date" type="date" fullWidth margin="dense" value={this.state.EDate}  onChange={this.handleTextChange} InputLabelProps={{shrink: true, }} />: null }
+                  <TextField InputLabelProps={{ shrink: true }} name="WorkplaceAdd" variant="outlined" label="Workplace Address" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.WorkplaceAdd} />
+                  <TextField InputLabelProps={{ shrink: true }} name="Achievements" variant="outlined" label="Accomplishment/Responsibility/Task" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.Achievements} />
+                  <TextField InputLabelProps={{ shrink: true }} name="ContactInfo" variant="outlined" label="Contact Info" fullWidth margin="dense" onChange={this.handleTextChange} value={this.state.ContactInfo} />
+                  <Divider />
+                  <Button  startIcon={<SaveIcon />} className='buttonSubmit' variant="contained" size="medium" type="submit" fullWidth>Submit</Button>
                 </form>
+
+                    {/* <Button variant="contained" color="secondary" size="small" onClick={this.clear} fullWidth>Clear</Button> */}
+                    <table class="table mt-4">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Workplace</th>
+                        <th scope="col">Contact Info</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {experiences.map(
+                          (experience,i) =>
+                          <tr>
+                            <th scope={experience.id}>{++i}</th>
+                            <td>{experience.Title}</td>
+                            <td>{experience.Workplace}</td>
+                            <td>{experience.ContactInfo}</td>
+                            <td>
+                              <Button variant="contained" color="primary" startIcon={<EditIcon />} onClick={()=> this.editExperience(experience)} >Edit</Button>
+                            </td>
+                            <td>
+                              <Button variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={()=> this.deleteExperience(experience._id)} >Delete</Button>
+                            </td>
+                          </tr>
+                              
+                      )}
+                      
+                    </tbody>
+                  </table>
+                </Paper>
             </div>
         );  
     }

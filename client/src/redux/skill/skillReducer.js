@@ -1,4 +1,4 @@
-import {GET_SKILLS, ADD_SKILLS, UPDATE_SKILLS} from './skillTypes.js'
+import {GET_SKILLS, ADD_SKILLS, UPDATE_SKILLS, DELETE_SKILLS} from './skillTypes.js'
 
 const initialState = {
     skills:[],
@@ -27,6 +27,13 @@ export default function(state = initialState, action){
             loading:false
 
         }
+        case DELETE_SKILLS:
+            return{
+                ...state,
+                skills:action.payload,
+                loading:false
+    
+            }
         default: return state
     }
 

@@ -5,7 +5,7 @@ export const getCertificates = async (req, res)=>{
     const { id } = req.params;
     console.log(req.params)
     try {
-        const certificates = await Certificates.findById(id);
+        const certificates = await Certificates.find({userID: id});
         console.log(certificates)
         res.status(200).json(certificates);
     } catch (error) {
@@ -15,7 +15,7 @@ export const getCertificates = async (req, res)=>{
 
 export const addCertificates = async (req, res)=>{
     const certificates = req.body;
-    console.log(certificates)
+        console.log('++++++++++'+certificates)
     const newCertificate = new Certificates(certificates);
     try {
         await newCertificate.save();
@@ -28,12 +28,14 @@ export const addCertificates = async (req, res)=>{
 }
 export const updateCertificates = async (req, res)=>{
     const { id: _id } = req.params;
-    const certificates = req.body;
-    console.log(certificates);
+    const certificate = req.body;
+    console.log('certificateID');
+    console.log(certificate);
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('no certificates with id');
-    const updateCertificate = await Certificates.findByIdAndUpdate(_id, certificates, {new: true});
-    res.json(updateCertificate);
+    if(!mongoose.Types.ObjectId.isValid(certificate.certificateID)) return res.status(404).send('no certificates with id');
+    const updateCertificate = await Certificates.findByIdAndUpdate(certificate.certificateID, certificate, {new: true});
+    const certificates = await Certificates.find({userID: certificate.certificateID});
+    res.status(200).json(certificates);
 
 }
 

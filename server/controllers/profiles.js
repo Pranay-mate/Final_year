@@ -4,9 +4,9 @@ export const getProfile = async (req, res)=>{
     const { id } = req.params;
     console.log(req.params)
     try {
-        const profile = await Profiles.findById(id);
+        const profiles = await Profiles.find({userID: id});
         //console.log(postMsg)
-        res.status(200).json(profile);
+        res.status(200).json(profiles);
     } catch (error) {
         res.status(400).json({message: error.message});
         
@@ -31,9 +31,11 @@ export const updateProfile = async (req, res)=>{
     const profile = req.body;
     console.log(profile);
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('no posts with id');
-    const updateProfile = await Profiles.findByIdAndUpdate(_id, post, {new: true});
-    res.json(updateProfile);
+    if(!mongoose.Types.ObjectId.isValid(profile.profileID)) return res.status(404).send('no posts with id');
+    const updateProfile = await Profiles.findByIdAndUpdate(profile.profileID, profile, {new: true});
+    const profiles = await Profiles.find({userID: profile.profileID});
+    //console.log(postMsg)
+    res.status(200).json(profiles);
 
 }
 
