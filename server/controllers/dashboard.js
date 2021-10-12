@@ -25,7 +25,7 @@ export const getScore = async (req, res)=>{
         });
         setTimeout(() => {
             score = ~~(score/(Apis.length)*100);
-            res.status(200).json(score);
+             res.status(200).json(score);
         }, 1000);
         //console.log(certificates)
         //res.status(200).json(certificates);
