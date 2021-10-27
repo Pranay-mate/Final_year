@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { TextField, Button, Typography, Paper, Radio, RadioGroup, FormLabel, Grid, Backdrop } from '@material-ui/core';
 import { getScore } from '../redux/dashboard/dashboardActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Pdf from './pdf.js'
@@ -33,12 +34,18 @@ class Home extends Component {
     console.log(this.props.Score.dashboard)
     console.log(score)
         return(
-          <div className="form-container">
-            <h1>Dashboard</h1>
-           <span className="float-right">
-            <CircularProgress variant="determinate" value={score} />
-            <h1 className="float-right pl-2" style={{fontSize: "2.5em"}}>{score}%</h1>
-           </span>
+          <div className="form-container" id="dashboard">
+             <Grid container spacing={3}>
+                <Grid item xs={3} md={9}>
+                  <h1>Dashboard</h1>
+                </Grid>
+                <Grid item xs={5} md={2} className='prog'>
+                  <h1 className="float-right pl-2" style={{fontSize: "2.5em"}}>{score}%</h1>
+                </Grid>
+                <Grid item xs={5} md={1} className=''>
+                <CircularProgress variant="determinate" value={score} />
+                </Grid>
+              </Grid>
            {/* <Button
                 variant="contained"
                 color="secondary"
@@ -47,7 +54,9 @@ class Home extends Component {
               >
                 PDF
               </Button> */}
-              <Pdf></Pdf>
+              <div style={{marginTop: "1em"}}>
+                <Pdf></Pdf>
+              </div>
           </div>
         );
     }

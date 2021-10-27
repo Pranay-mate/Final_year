@@ -1,0 +1,45 @@
+
+
+a:link, a:visited {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.company-logo{
+    font-family: 'East Sea Dokdo', cursive;
+    font-size: 1em;
+}
+.copyright{
+    text-align: left;
+}
+
+.footer .column{
+    margin: auto!important;
+}
+.icons a{
+    margin: 1em;
+}
+@media only screen and (min-width: 601px) {
+    .copyright-span{
+        font-size: 1.2em;
+        position: absolute;
+       
+    }
+    .footer-icons{
+        /* padding-left: 45em; */
+    }
+}
+@media only screen and (max-width: 600px) {
+    .footer-icons{
+        text-align: center;
+    }
+    .company-logo{
+        font-family: 'East Sea Dokdo', cursive;
+        font-size: 14px;
+    }
+    .copyright{
+    text-align: center;
+        font-size: 12px;
+    }
+}

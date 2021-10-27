@@ -21,6 +21,7 @@ import Certificates from './components/certificates';
 import Languages from './components/languages';
 import Dashboard from './components/dashboard';
 import Auth from './components/Auth/auth';
+import Footer from './components/footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -78,7 +79,7 @@ function App() {
           <Route path="/certificates" render={()=>  <Certificates></Certificates>} />
           <Route path="/languages" render={()=>  <Languages></Languages>} />
           <Route path="/interests" render={()=>  <Interest></Interest>} />
-          <ToastContainer />
+          <ToastContainer   />
           
         </main>
       </div>

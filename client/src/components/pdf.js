@@ -1,6 +1,9 @@
 import React from 'react';
 import Pdf from "react-to-pdf";
 import './pdf.css'
+import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import Download from '@material-ui/icons/CloudDownload';
+
 
 const ref = React.createRef();
 const options = {
@@ -10,11 +13,12 @@ const PDF = (props) => {
   
   return (
     <>
-      <div className="Post p-4" >
-
-      <Pdf targetRef={ref} filename="post.pdf" style={{'position': 'fixed'}} options={options} x={2} y={1} scale={0.5}>
-        {({ toPdf }) => <button onClick={toPdf}>Capture as PDF</button>}
-      </Pdf>
+      <div className="Post pdfDiv p-4" >
+      <div className="pdfDownload">
+        <Pdf targetRef={ref} filename="post.pdf" style={{'position': 'fixed'}} options={options} x={2} y={1} scale={0.5}>
+          {({ toPdf }) => <Button variant="contained" color="primary" startIcon={<Download />} onClick={toPdf} >Download</Button>}
+        </Pdf>
+      </div>
       <div class="portfolio" ref={ref}>
       <section id="main" >
       <header id="title">

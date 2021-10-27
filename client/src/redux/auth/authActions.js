@@ -6,7 +6,7 @@ export const signin = (formData, router) => async (dispatch) => {
   try {
     const { data } = await api.signIn(formData);
     dispatch({ type: AUTH, data });
-    toast.success("Hi.."+data.result.name);
+    toast.success("Hey! "+data.result.name);
 
     router.push('/');
   } catch (error) {
@@ -21,7 +21,7 @@ export const signup = (formData, router) => async (dispatch) => {
 
     dispatch({ type: AUTH, data });
     console.log(data)
-    toast.success("Hi.."+data.result.name);
+    // toast.success("Hi.."+data.result.name);
 
     router.push('/');
   } catch (error) {

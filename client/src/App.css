@@ -93,3 +93,9 @@ h3{
 .MuiAvatar-colorDefault{
   background-color: grey!important;
 }
+
+.pdfDownload{
+  position: absolute;
+  right: 4em;
+  top: 9.7em;
+}
