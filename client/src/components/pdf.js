@@ -14,213 +14,98 @@ const PDF = (props) => {
   return (
     <>
       <div className="Post pdfDiv p-4" >
-      <div className="pdfDownload">
+      {/* <div className="pdfDownload">
         <Pdf targetRef={ref} filename="post.pdf" style={{'position': 'fixed'}} options={options} x={2} y={1} scale={0.5}>
           {({ toPdf }) => <Button variant="contained" color="primary" startIcon={<Download />} onClick={toPdf} >Download</Button>}
         </Pdf>
-      </div>
-      <div class="portfolio" ref={ref}>
+      </div> */}
+      <div class="portfolio" >
       <section id="main" >
       <header id="title">
-        <h1>John Doe</h1>
-        <span class="subtitle">Plaintiff, defendant &amp; witness</span>
+        <h1>{props.pdfData.Profiles[0].Fname} {props.pdfData.Profiles[0].Mname} {props.pdfData.Profiles[0].Lname}</h1>
+        <span class="subtitle">{props.pdfData.Profiles[0].JobTitle}</span>
       </header>
       <section class="main-block">
         <h2>
           <i class="fa fa-suitcase"></i> Experiences
         </h2>
-        <section class="blocks">
-          <div class="date">
-            <span>2015</span><span>present</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Some Position</h3>
-              <span class="place">Some Workplace</span>
-              <span class="location">(remote)</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
-              </ul>
-              </div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2014</span><span>2015</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Another Position</h3>
-              <span class="place">Some Workplace</span>
-              <span class="location">Some City, Some Country</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-              </ul>
+        {/* {props.pdfData.Experiences[0].Title} */}
+        {/* {props.pdfData.Experiences.map(({ experience }) =>
+            <h1>{experienc}</h1>
+        )} */}
+
+        {props.pdfData.Experiences.map(experience =>
+          <section class="blocks">
+            <div class="date">
+              <span>{experience.SDate}</span> - <span>{experience.EDate}</span>
             </div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2013</span><span>2014</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Yet Another Job Position</h3>
-              <span class="place">Some Workplace</span>
-              <span class="location">Some City, Some Country</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-              </ul>
-              </div>
-          </div>
-        </section>
+            <div class="decorator">
+            </div>
+            <div class="details">
+              <header>
+                <h3>{experience.Title}</h3>
+                <span class="place">{experience.WorkPlace}</span>
+                <span class="location">{experience.WorkplaceAdd}</span>
+              </header>
+              <div>
+                <ul>
+                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
+                </ul>
+                </div>
+            </div>
+          </section>
+            
+        )}
       </section>
       <section class="main-block">
         <h2>
           <i class="fa fa-folder-open"></i> Selected Projects
         </h2>
-        <section class="blocks">
-          <div class="date">
-            <span>2015</span><span>2016</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Some Project 1</h3>
-              <span class="place">Some workplace</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac</li>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-              </ul>
+        {props.pdfData.Projects.map(project =>
+          <section class="blocks">
+            <div class="date">
+              <span>{project.SDate}</span> - <span>{project.EDate}</span>
             </div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2014</span><span>2015</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Some Project 2</h3>
-              <span class="place">Some workplace</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
-              </ul>
+            <div class="decorator">
             </div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2014</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Some Project 3</h3>
-              <span class="place">Some workplace</span>
-            </header>
-            <div>
-              <ul>
-                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-              </ul>
+            <div class="details">
+              <header>
+                <h3>{project.ProjectName}</h3>
+                <span class="place">Some workplace</span>
+              </header>
+              <div>
+                <ul>
+                  <li>{project.Description}</li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+       
       </section>
       <section class="main-block concise">
         <h2>
           <i class="fa fa-graduation-cap"></i> Education
         </h2>
-        <section class="blocks">
-          <div class="date">
-            <span>2009</span><span>2014</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Ph.D. in Forty-Two Discovery</h3>
-              <span class="place">Inexistent University</span>
-              <span class="location">Some City, Some Country</span>
-            </header>
-            <div>Relationship of the number with the answer to life, the universe and everything</div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2005</span><span>2009</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>LL.B. in H&aelig;matophagic Economics</h3>
-              <span class="place">Inexistent University</span>
-              <span class="location">Some City, Some Country</span>
-            </header>
-            <div>President's Scholarship</div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2005</span><span>2009</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>B.S. in Existential Science (Double Major)</h3>
-              <span class="place">Inexistent University</span>
-              <span class="location">Some City, Some Country</span>
-            </header>
-            <div>President's Scholarship</div>
-          </div>
-        </section>
-        <section class="blocks">
-          <div class="date">
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>Massive Online Fee&ndash;Required Course (selective list)</h3>
-            </header>
-            <div class="concise">
-              <ul>
-                <li>Introduction to something else</li>
-                <li>Introduction to some more useless things</li>
-                <li>Philosophy in practice</li>
-                <li>Recursive research and its impact on recursive research</li>
-                <li>Artificial politics</li>
-              </ul>
+        {props.pdfData.Educations.map(education =>
+          <section class="blocks">
+            <div class="date">
+              <span>{education.SDate}</span> - <span>{education.EDate}</span>
             </div>
-          </div>
-        </section>
+            <div class="decorator">
+            </div>
+            <div class="details">
+              <header>
+                <h3>{education.Program}</h3>
+                <span class="place">{education.Institude}</span><br></br>
+                <span class="location">Some City, Some Country</span>
+              </header>
+              <div>{education.MarksObtained}</div>
+            </div>
+          </section>
+        )}
+        
       </section>
     </section>
     <aside id="sidebar">
@@ -229,10 +114,11 @@ const PDF = (props) => {
           Contact Info
         </h1>
         <ul>
-          <li><i class="fa fa-globe"></i> johndoe.gtld</li>
-          <li><i class="fa fa-linkedin"></i> linkedin.com/in/john</li>
-          <li><i class="fa fa-envelope"></i> me@johndoe.gtld</li>
-          <li><i class="fa fa-phone"></i> 800.000.0000</li>
+          {/* <li><i class="fa fa-globe"></i> johndoe.gtld</li>
+          <li><i class="fa fa-linkedin"></i> linkedin.com/in/john</li> */}
+          
+          {props.pdfData.Profiles[0].EmailId != null ? <li><i class="fa fa-envelope"></i> {props.pdfData.Profiles[0].EmailId}</li> : null}
+          {props.pdfData.Profiles[0].ContactNumber != null ? <li><i class="fa fa-phone"></i> {props.pdfData.Profiles[0].ContactNumber}</li> : null}
         </ul>
       </div>
       <div class="side-block" id="skills">
@@ -240,16 +126,13 @@ const PDF = (props) => {
           Skills
         </h1>
         <ul>
-          <li>Omnipresence</li>
-          <li>Anonymity</li>
-        </ul>
-        <ul>
-          <li>Ordinarity</li>
-          <li>No name rights</li>
+        {props.pdfData.Skills.map(skill =>
+          <li>{skill.skill}</li>
+        )}
         </ul>
       </div>
       <div class="side-block" id="disclaimer">
-        This r&eacute;sum&eacute; was wholly typeset with HTML/CSS &mdash; see <code>git.io/vVSYL</code>
+        {/* This r&eacute;sum&eacute; was wholly typeset with HTML/CSS &mdash; see <code>git.io/vVSYL</code> */}
       </div>
     </aside>
       </div>

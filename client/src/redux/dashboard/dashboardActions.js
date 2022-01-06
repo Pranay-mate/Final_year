@@ -9,7 +9,7 @@ export const getScore = () => async dispatch => {
     const userId = user.result._id;
     try{
         const res = await axios.get(`http://localhost:5000/score/`+userId)
-        console.log(res.data);
+        // console.log(res.data);
         dispatch( {
             type: GET_SCORE,
             payload: res.data

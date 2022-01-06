@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import pdf from 'html-pdf';
 
+import pdfTemplate from './documents/index.js';
+
 import profileRoutes from './routes/profiles.js';
 import userRouter from "./routes/user.js";
 import skillRouter from "./routes/skills.js";
@@ -15,11 +17,60 @@ import projectRouter from "./routes/projects.js";
 import certificateRouter from "./routes/certificates.js";
 import dashboardRouter from "./routes/dashboard.js"
 
+import Educations from './models/education.js';
+import Experiences from './models/experience.js';
+import Interests from './models/interests.js';
+import Languages from './models/languages.js';
+import Projects from './models/projects.js';
+import skills from './models/skills.js';
+import Certificates from './models/certificates.js'; 
+import Profiles from './models/profiles.js';  
+
 const app = express();
 
 app.use(bodyParser.json({limit: '30mb', extends: true}));
 app.use(bodyParser.urlencoded({limit: '30mb', extends: true}));
 app.use(cors()); 
+
+
+
+app.post('/create-pdf', (req, res) => {
+  const userId = req.body.userId;
+  var score = 0;
+  const Apis = [Profiles,Educations, Experiences, Interests, Languages, Projects, skills, Certificates];
+  const ApiNames = ["Profiles","Educations", "Experiences", "Interests", "Languages", "Projects", "Skills", "Certificates"];
+  const pdfData = [];
+  const obj ={};
+  Apis.forEach(async (api,i) => {
+      const resData = await api.find({userID: userId});
+      if(resData.length > 0){
+          score++;
+      }
+      obj[ApiNames[i]] = resData;
+    });
+    setTimeout(() => {
+      score = ~~(score/(Apis.length)*100);
+      obj["score"] = score;
+      pdfData.push(obj);
+      // res.status(200).json(pdfData);
+    }, 1000);
+
+    setTimeout(() => {
+      console.log(pdfData[0])
+    pdf.create(pdfTemplate(pdfData[0]), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        } 
+        res.send(Promise.resolve());
+    });
+  }, 2000);
+});
+
+app.get('/fetch-pdf', (req, res) => {
+  // console.log(req);
+  // console.log(res);
+  res.sendFile('/result.pdf', { root: '.' });
+})
 
 app.use('/score', dashboardRouter);
 app.use('/profile', profileRoutes);
