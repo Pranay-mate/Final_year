@@ -1,8 +1,14 @@
 import Profiles from '../models/profiles.js';
 import mongoose from 'mongoose';
+import express from 'express';
+import path  from 'path';
+const app = express();
+global.dirname = '';
+dirname = path.resolve();
+app.use(express.static(path.join(dirname, "client/build")));
+
 export const getProfile = async (req, res)=>{
     const { id } = req.params;
-    console.log(req.params)
     try {
         const profiles = await Profiles.find({userID: id});
         //console.log(postMsg)
@@ -49,3 +55,16 @@ export const deleteProfile = async (req, res)=>{
     res.json(deleteProfile);
 
 }
+
+export const reProfile = async (req,res)=>{
+  console.log('----------sdkfjsndfkdsf-----------------------')
+   res.sendFile(
+     path.join(dirname, "client","build","index.html"),
+     function (err) {
+       if (err) {
+         res.status(500).send(err);
+       }
+     }
+   );
+ 
+ }

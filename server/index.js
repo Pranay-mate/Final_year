@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import pdf from 'html-pdf';
-
 import pdfTemplate from './documents/index.js';
 
 import profileRoutes from './routes/profiles.js';
@@ -25,6 +24,7 @@ import Projects from './models/projects.js';
 import skills from './models/skills.js';
 import Certificates from './models/certificates.js'; 
 import Profiles from './models/profiles.js';  
+import path  from 'path';
 
 const app = express();
 
@@ -42,26 +42,26 @@ app.post('/create-pdf', (req, res) => {
   const pdfData = [];
   const obj ={};
   Apis.forEach(async (api,i) => {
-      const resData = await api.find({userID: userId});
-      if(resData.length > 0){
-          score++;
-      }
-      obj[ApiNames[i]] = resData;
-    });
-    setTimeout(() => {
-      score = ~~(score/(Apis.length)*100);
-      obj["score"] = score;
-      pdfData.push(obj);
-      // res.status(200).json(pdfData);
-    }, 1000);
-
-    setTimeout(() => {
-      console.log(pdfData[0])
+    const resData = await api.find({userID: userId});
+    if(resData.length > 0){
+      score++;
+    }
+    obj[ApiNames[i]] = resData;
+  });
+  setTimeout(() => {
+    score = ~~(score/(Apis.length)*100);
+    obj["score"] = score;
+    pdfData.push(obj);
+    // res.status(200).json(pdfData);
+  }, 1000);
+  
+  setTimeout(() => {
+    // console.log(pdfData[0])
     pdf.create(pdfTemplate(pdfData[0]), {}).toFile('result.pdf', (err) => {
-        if(err) {
-            res.send(Promise.reject());
-        } 
-        res.send(Promise.resolve());
+      if(err) {
+        res.send(Promise.reject());
+      } 
+      res.send(Promise.resolve());
     });
   }, 2000);
 });
@@ -84,11 +84,38 @@ app.use("/projects", projectRouter);
 app.use("/certificates", certificateRouter);
 
 
+// deploymentstart
+// global.dirname = '';
+// dirname = path.resolve();
+// app.use(express.static(path.join(pathName,'/client/build')));
+// app.get('*', (req, res) => {
+//   console.log(pathName+'/client/build/index.html')
+//   res.sendFile(path.resolve(pathName,'client','build','index.html'));
+// });
+
+
+// app.use(express.static(path.join(dirname, "client/build")));
+// app.get("*", function (req, res) {
+//   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+//   res.sendFile(
+//     path.join(dirname, "./client/build", "index.html"),
+//     function (err) {
+//       if (err) {
+//         res.status(500).send(err);
+//       }
+//     }
+//   );
+// });
+
+
+// deploymentend
+
+
 const uri = "mongodb+srv://Pranay:Pranay@123@cluster0.i5amh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
-  .catch((error) => console.log(`${error} did not connect`));
+.then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
+.catch((error) => console.log(`${error} did not connect`));
 
   mongoose.set('useFindAndModify', false);

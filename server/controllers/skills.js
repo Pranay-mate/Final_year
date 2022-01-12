@@ -1,13 +1,14 @@
 import skills from '../models/skills.js';
 import mongoose from "mongoose";
+import path  from 'path';
 
 export const getSkills = async (req, res)=>{
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
     try {
         const Skills = await skills.find({userID: id});
-        console.log(Skills);
-        res.status(200).json(Skills);
+        // console.log(Skills);
+        res.json(Skills);
     } catch (error) {
         res.status(400).json({message: error.message});
     }
