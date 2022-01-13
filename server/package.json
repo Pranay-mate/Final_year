@@ -29,14 +29,5 @@
   "engines": {
     "node": "14.15.0"
   },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Pranay-mate/AI_RESUME_BACKEND.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Pranay-mate/AI_RESUME_BACKEND/issues"
-  },
-  "homepage": "https://github.com/Pranay-mate/AI_RESUME_BACKEND#readme",
-  "description": ""
+  "devDependencies": {}
 }

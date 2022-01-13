@@ -11,7 +11,7 @@ export const getSkills = () => async dispatch => {
         }
         const userId = user.result._id;
 
-        const res = await axios.get(`http://localhost:5000/skills/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/skills/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_SKILLS,
@@ -31,7 +31,7 @@ export const getSkills = () => async dispatch => {
 export const addSkills = userobj => async dispatch => {
     console.log(userobj)
     try{
-        const res = await axios.post(`http://localhost:5000/skills`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/skills`, userobj)
         dispatch( {
             type: ADD_SKILLS,
             payload: res.data
@@ -55,7 +55,7 @@ export const updateSkills = data => async dispatch => {
     const userId = user.result._id;
     console.log(data);
     try{
-        const res = await axios.put(`http://localhost:5000/skills/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/skills/`+userId, data)
         console.log(res)
         dispatch( {
             type: UPDATE_SKILLS,
@@ -78,7 +78,7 @@ export const deleteSkills = data => async dispatch => {
     const userId = user.result._id;
     //console.log(data)
     try{
-        const res = await axios.delete(`http://localhost:5000/skills/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/skills/`+data)
         dispatch( {
             type: DELETE_SKILLS,
             payload: res.data

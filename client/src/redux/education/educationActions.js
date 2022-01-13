@@ -9,7 +9,7 @@ export const getEducation = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`http://localhost:5000/education/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/education/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_EDUCATION,
@@ -30,7 +30,7 @@ export const addEducation = userobj => async dispatch => {
     console.log(userobj)
     try{
         console.log(userobj)
-        const res = await axios.post(`http://localhost:5000/education`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/education`, userobj)
         dispatch( {
             type: ADD_EDUCATION,
             payload: res.data
@@ -51,7 +51,7 @@ export const deleteEducation = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/education/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/education/`+data)
         dispatch( {
             type: DELETE_EDUCATIOIN,
             payload: res.data
@@ -72,7 +72,7 @@ export const updateEducation = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.put(`http://localhost:5000/education/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/education/`+userId, data)
         dispatch( {
             type: UPDATE_EDUCATION,
             payload: res.data

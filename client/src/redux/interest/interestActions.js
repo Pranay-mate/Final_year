@@ -9,7 +9,7 @@ export const getInterests = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`http://localhost:5000/interests/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/interests/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_INTEREST,
@@ -28,7 +28,7 @@ export const getInterests = () => async dispatch => {
 export const addInterests = userobj => async dispatch => {
     console.log(userobj)
     try{
-        const res = await axios.post(`http://localhost:5000/interests`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/interests`, userobj)
         dispatch( {
             type: ADD_INTEREST,
             payload: res.data
@@ -49,7 +49,7 @@ export const deleteInterest = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/interests/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/interests/`+data)
         dispatch( {
             type: DELETE_INTEREST,
             payload: res.data
@@ -70,7 +70,7 @@ export const updateInterest = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.put(`http://localhost:5000/interests/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/interests/`+userId, data)
         dispatch( {
             type: UPDATE_INTEREST,
             payload: res.data

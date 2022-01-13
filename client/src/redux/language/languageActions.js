@@ -9,7 +9,7 @@ export const getLanguage = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`http://localhost:5000/languages/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/languages/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_LANGUAGE,
@@ -29,7 +29,7 @@ export const addLanguage = userobj => async dispatch => {
     console.log(userobj)
     try{
         console.log(userobj)
-        const res = await axios.post(`http://localhost:5000/languages`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/languages`, userobj)
         dispatch( {
             type: ADD_LANGUAGE,
             payload: res.data
@@ -50,7 +50,7 @@ export const deleteLanguage = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/languages/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/languages/`+data)
         dispatch( {
             type: DELETE_LANGUAGE,
             payload: res.data
@@ -72,7 +72,7 @@ export const updateLanguage = data => async dispatch => {
     const userId = user.result._id;
     console.log(data);
     try{
-        const res = await axios.put(`http://localhost:5000/languages/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/languages/`+userId, data)
         dispatch( {
             type: UPDATE_LANGUAGE,
             payload: res.data

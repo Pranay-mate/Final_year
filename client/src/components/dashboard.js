@@ -22,8 +22,8 @@ class Home extends Component {
     const user = JSON.parse(localStorage.getItem('profile'));
     
     const userId = user.result._id;
-    axios.post('http://localhost:5000/create-pdf', {'userId':userId})
-      .then(() => axios.get('http://localhost:5000/fetch-pdf', { responseType: 'blob' }))
+    axios.post('https://sleepy-reaches-43026.herokuapp.com/create-pdf', {'userId':userId})
+      .then(() => axios.get('https://sleepy-reaches-43026.herokuapp.com/fetch-pdf', { responseType: 'blob' }))
       .then((res) => {
         // console.log(res)
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });

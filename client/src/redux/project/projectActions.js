@@ -9,7 +9,7 @@ export const getProjects = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`http://localhost:5000/projects/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/projects/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_PROJECTS,
@@ -29,7 +29,7 @@ export const addProjects = userobj => async dispatch => {
     console.log(userobj)
     try{
         console.log(userobj)
-        const res = await axios.post(`http://localhost:5000/projects`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/projects`, userobj)
         dispatch( {
             type: ADD_PROJECTS,
             payload: res.data
@@ -50,7 +50,7 @@ export const deleteProjects = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/projects/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/projects/`+data)
         dispatch( {
             type: DELETE_PROJECTS,
             payload: res.data
@@ -71,7 +71,7 @@ export const updateProjects = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.put(`http://localhost:5000/projects/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/projects/`+userId, data)
         dispatch( {
             type: UPDATE_PROJECTS,
             payload: res.data

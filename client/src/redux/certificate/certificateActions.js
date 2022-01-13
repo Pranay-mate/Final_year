@@ -8,7 +8,7 @@ export const getCertificate = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`http://localhost:5000/certificates/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/certificates/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_CERTIFICATE,
@@ -28,7 +28,7 @@ export const addCertificate = userobj => async dispatch => {
     console.log(userobj)
     try{
         console.log(userobj)
-        const res = await axios.post(`http://localhost:5000/certificates`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/certificates`, userobj)
         dispatch( {
             type: ADD_CERTIFICATE,
             payload: res.data
@@ -49,7 +49,7 @@ export const deleteCertificate = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`http://localhost:5000/certificates/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/certificates/`+data)
         dispatch( {
             type: DELETE_CERTIFICATE,
             payload: res.data
@@ -70,7 +70,7 @@ export const updateCertificate = data => async dispatch => {
         const user = JSON.parse(localStorage.getItem('profile'));
         const userId = user.result._id;
     try{
-        const res = await axios.put(`http://localhost:5000/certificates/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/certificates/`+userId, data)
         dispatch( {
             type: UPDATE_CERTIFICATE,
             payload: res.data
