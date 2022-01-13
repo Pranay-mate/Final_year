@@ -62,7 +62,7 @@ function Navbar() {
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
 
-    history.push('/auth');
+    history.push('Final_year/auth');
 
     setUser(null);
   };
@@ -113,7 +113,7 @@ function Navbar() {
             <Toolbar />
             <div className={classes.drawerContainer}>
             <List>
-                <Link to="/profile" className="navlink">
+                <Link to="Final_year/profile" className="navlink">
                 <ListItem button primary="Profile">
                     <ListItemIcon>
                         <CgProfile />
@@ -121,7 +121,7 @@ function Navbar() {
                     <ListItemText primary="Profile" />
                 </ListItem>
                 </Link>
-                <Link to="/education" className="navlink">
+                <Link to="Final_year/education" className="navlink">
                 <ListItem button primary="Education">
                     <ListItemIcon>
                         <FaUniversity />
@@ -129,7 +129,7 @@ function Navbar() {
                     <ListItemText primary="Education" />
                 </ListItem>
                 </Link>
-                <Link to="/skills" className="navlink">
+                <Link to="Final_year/skills" className="navlink">
                 <ListItem button primary="Skills">
                     <ListItemIcon>
                          <RiLightbulbFlashLine />
@@ -137,7 +137,7 @@ function Navbar() {
                     <ListItemText primary="Skills" />
                 </ListItem>
                 </Link>
-                <Link to="/experiences" className="navlink">
+                <Link to="Final_year/experiences" className="navlink">
                 <ListItem button primary="Experience">
                     <ListItemIcon>
                          <BsFillBriefcaseFill />
@@ -145,7 +145,7 @@ function Navbar() {
                     <ListItemText primary="Experience" />
                 </ListItem>
                 </Link>
-                <Link to="/projects" className="navlink">
+                <Link to="Final_year/projects" className="navlink">
                 <ListItem button primary="Projects">
                     <ListItemIcon>
                          <BsGraphUp />
@@ -153,7 +153,7 @@ function Navbar() {
                     <ListItemText primary="Projects" />
                 </ListItem>
                 </Link>
-                <Link to="/certificates" className="navlink">
+                <Link to="Final_year/certificates" className="navlink">
                 <ListItem button primary="Certificates">
                     <ListItemIcon>
                          <AiOutlineSafetyCertificate />
@@ -161,7 +161,7 @@ function Navbar() {
                     <ListItemText primary="Certificates" />
                 </ListItem>
                 </Link>
-                <Link to="/languages" className="navlink">
+                <Link to="Final_year/languages" className="navlink">
                 <ListItem button primary="Language">
                     <ListItemIcon>
                          <FaLanguage />
@@ -169,7 +169,7 @@ function Navbar() {
                     <ListItemText primary="Language" />
                 </ListItem>
                 </Link>
-                <Link to="/interests" className="navlink">
+                <Link to="Final_year/interests" className="navlink">
                 <ListItem button primary="Interest">
                     <ListItemIcon>
                          <BsGraphUp />
@@ -177,7 +177,7 @@ function Navbar() {
                     <ListItemText primary="Interest" />
                 </ListItem>
                 </Link>
-                <Link to="/more" className="navlink">
+                <Link to="Final_year/more" className="navlink">
                 <ListItem button primary="More">
                     <ListItemIcon>
                          <AiTwotoneThunderbolt />
