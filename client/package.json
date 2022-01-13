@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "homepage": "http://Pranay-mate.github.io/FINAL_YEAR_PROJECT/",
+  "homepage": "http://Pranay-mate.github.io/FINAL_year/",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
