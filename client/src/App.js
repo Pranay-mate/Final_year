@@ -59,7 +59,7 @@ function App() {
     <>
     
     <Provider store={store}>
-    <BrowserRouter basename="/Final_year">
+    <BrowserRouter basename="/">
     <div class="App">
       <div className={classes.root}>
         <CssBaseline />
