@@ -1,7 +1,7 @@
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import './App.css';
 import {Provider} from 'react-redux';
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 
 import store from './redux/store';
@@ -58,7 +58,7 @@ function App() {
   return (
     <>
     <Provider store={store}>
-    <HashRouter basename="/Final_year">
+    <BrowserRouter basename="/Final_year">
     <div class="App">
       <div className={classes.root}>
         <CssBaseline />
@@ -83,7 +83,7 @@ function App() {
         </main>
       </div>
     </div>
-    </HashRouter>
+    </BrowserRouter>
     </Provider>
     </>
   );
