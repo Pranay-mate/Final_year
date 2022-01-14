@@ -85,26 +85,28 @@ app.use("/certificates", certificateRouter);
 
 
 // deploymentstart
-// global.dirname = '';
-// dirname = path.resolve();
-// app.use(express.static(path.join(pathName,'/client/build')));
+global.dirname = '';
+dirname = path.resolve().slice(0,-7);
+app.use(express.static(path.join(dirname,'/client/build')));
 // app.get('*', (req, res) => {
-//   console.log(pathName+'/client/build/index.html')
-//   res.sendFile(path.resolve(pathName,'client','build','index.html'));
-// });
-
-
-// app.use(express.static(path.join(dirname, "client/build")));
+  // console.log(dirname+'/client/build/index.html')
+//     res.sendFile(path.resolve(dirname,'client','build','index.html'));
+//   });
+  
+  
+  // app.use(express.static(path.join(dirname, "client", "build")))
+  // console.log(dirname+'/client/build/index.html')
 // app.get("*", function (req, res) {
-//   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
-//   res.sendFile(
-//     path.join(dirname, "./client/build", "index.html"),
-//     function (err) {
-//       if (err) {
-//         res.status(500).send(err);
-//       }
-//     }
-//   );
+  // res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private')
+  // res.sendFile(
+  //   path.join(dirname, "./client/build", "index.html"),
+  //   function (err) {
+  //     if (err) {
+  //       res.status(500).send(err);
+  //     }
+  //   }
+  // );
+//   res.sendFile(path.join(dirname, "client", "build", "index.html"));
 // });
 
 
