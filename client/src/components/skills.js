@@ -25,17 +25,13 @@ class Skills extends Component {
   componentDidUpdate(prevProps){  
     //this.props.getSkills();
     console.log('len');
-    console.log(prevProps.Skills);
+    console.log(prevProps.Skills.skill);
+    console.log(prevProps.Skills.skill.length);
     console.log('this.prop.skills');
     console.log(this.props.Skills);
     
   }
   
-  componentWillUnmount(){
-    console.log('this.prop.skills from will unmount');
-    console.log(this.props.Skills);
-
-  }
 
   loader = () => {
     this.setState({isLoading: true});
