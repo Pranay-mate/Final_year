@@ -16,35 +16,28 @@ class Skills extends Component {
     formState: 'ADD'
   }
   componentDidMount(){  
-      this.props.getSkills();
-      this.setState({
-        skills: this.props.Skills
+    this.props.getSkills();
+    this.setState({
+      skills: this.props.Skills
     });
+    console.log(this.state.formState)
   }
 
   componentDidUpdate(prevProps){  
-    // if(typeof(prevProps.Skills.skills.length) == 'undefined' || prevProps.Skills.skills.length  == 0){
-      // this.props.getSkills();
-      // this.setState({
-      //   skills: this.props.Skills
-      // });
-      console.log('leng');
-      console.log(prevProps.Skills);
-      console.log(prevProps.Skills.skills);
-      console.log(prevProps.Skills.skills.length);
-      console.log('this.prop.skills');
-      console.log(this.props.Skills.skills);
-    // }
-    
+    if(typeof(prevProps.Skills.skills.length) != 'undefined' && this.props.Skills.skills.length  == 0){
+     this.props.getSkills();
+    }
   }
   
-
   loader = () => {
     this.setState({isLoading: true});
     setInterval(() => {
-    //window.location.reload(); 
-    this.setState({isLoading: false});
+      if(this.state.formState == 'UPDATE'){
+        this.setState({formState: "ADD"});
+      }
+      this.setState({isLoading: false});
     }, 1000);
+    console.log(this.state.formState)
   }
 
   handleTextChange = event => {
@@ -58,49 +51,52 @@ class Skills extends Component {
     }else{
       this.setState({ newSkill:{[name]: value, userID: user.result._id }});
     }
-
-    console.log(this.state)
+    console.log(this.state.formState)
   }
+
   editSkill = (_id,_skill) => {
     this.setState({skillId: _id }); //for add ID in html
     this.setState({ skill: _skill }); //for add skill in input
-    
 
     this.setState({ newSkill:{skillId: _id} });
     this.setState({formState: "UPDATE"});
+    console.log(this.state.formState)
   };
 
   deleteSkill = (_id) => {
     this.setState({ deleteSkill: _id });
     this.props.deleteSkills(_id);
     this.loader();
+    console.log(this.state.formState)
   };
 
 
   handleOnSubmit = event => {
     event.preventDefault();
-    
     const skillID = $(".form_container.skill").attr('id');
     if (typeof(skillID) != 'undefined' && skillID != '') {
      this.props.updateSkills(this.state.newSkill);
     }else{
      this.props.addSkills(this.state.newSkill);
     }
-    this.props.getSkills();
+    //this.props.getSkills();
     this.loader();
     console.log(this.state)
+    console.log(this.state.formState)
+
+    this.setState({skillId: null }); //for rm ID in html
+    this.setState({ skill: '' }); //for rm skill in input
   }
  
     render(){
        const {skills} = this.props.Skills;
-       
-      // var skillsArray = [];
-       console.log(skills)
+       console.log(this.state.formState)
+
 
        return(
           <div className="form-container">
             <Paper className='paper'>
-            <h3>{this.state.formState} SKILL</h3>
+            <h3>{this.state.skillId != null ? 'UPDATE': 'ADD'} SKILL</h3>
             <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>
             <div className='form_container skill' id={this.state.skillId}>
             <React.Fragment >
