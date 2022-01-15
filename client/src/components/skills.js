@@ -23,7 +23,7 @@ class Skills extends Component {
   }
 
   componentDidUpdate(){  
-    this.props.getSkills();
+    //this.props.getSkills();
     this.setState({
       skills: this.props.Skills
     });
