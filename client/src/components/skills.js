@@ -23,12 +23,12 @@ class Skills extends Component {
   }
 
   componentDidUpdate(prevProps){  
-    if(this.props.Skills.length == 0){
-      this.props.getSkills();
-      this.setState({
-        skills: this.props.Skills
-      });
-    }
+    // if(this.props.Skills.length == 0){
+    //   this.props.getSkills();
+    //   this.setState({
+    //     skills: this.props.Skills
+    //   });
+    // }
     console.log('leng');
     console.log(prevProps.Skills.skill);
     console.log(prevProps.Skills.skill.length);
