@@ -24,7 +24,8 @@ class Skills extends Component {
 
   componentDidUpdate(prevProps){  
     //this.props.getSkills();
-    console.log(prevProps)
+    console.log(prevProps.Skills.length == 0);
+    console.log(this.props.Skills);
 
   }
 
