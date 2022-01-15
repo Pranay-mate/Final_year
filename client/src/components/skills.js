@@ -31,7 +31,6 @@ class Skills extends Component {
     // }
     console.log('leng');
     console.log(prevProps.Skills.skill);
-    console.log(prevProps.Skills.skill.length);
     console.log('this.prop.skills');
     console.log(this.props.Skills);
     
