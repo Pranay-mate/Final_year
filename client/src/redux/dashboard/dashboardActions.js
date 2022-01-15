@@ -8,7 +8,7 @@ export const getScore = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/score/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/Final_year/score/`+userId)
         // console.log(res.data);
         dispatch( {
             type: GET_SCORE,

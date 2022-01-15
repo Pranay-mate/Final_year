@@ -9,7 +9,7 @@ export const getExperience = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/experience/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/Final_year/experience/`+userId)
         console.log(res.data);
         dispatch( {
             type: GET_EXPERINCE,
@@ -29,7 +29,7 @@ export const addExperience = userobj => async dispatch => {
     console.log(userobj)
     try{
         console.log(userobj)
-        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/experience`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/Final_year/experience`, userobj)
         dispatch( {
             type: ADD_EXPERINCE,
             payload: res.data
@@ -50,7 +50,7 @@ export const deleteExperience = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/experience/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/Final_year/experience/`+data)
         dispatch( {
             type: DELETE_EXPERIENCE,
             payload: res.data
@@ -71,7 +71,7 @@ export const updateExperience = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/experience/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/Final_year/experience/`+userId, data)
         dispatch( {
             type: UPDATE_EXPERIENCE,
             payload: res.data

@@ -9,7 +9,7 @@ export const getProfile = () => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/profile/`+userId)
+        const res = await axios.get(`https://sleepy-reaches-43026.herokuapp.com/Final_year/profile/`+userId)
         //console.log(res.data);
         dispatch( {
             type: GET_PROFILE,
@@ -30,7 +30,7 @@ export const addProfile = userobj => async dispatch => {
     
     try{
         console.log(userobj)
-        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/profile`, userobj)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/Final_year/profile`, userobj)
         dispatch( {
             type: ADD_PROFILE,
             payload: res.data
@@ -51,7 +51,7 @@ export const deleteProfile = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/profile/`+data)
+        const res = await axios.delete(`https://sleepy-reaches-43026.herokuapp.com/Final_year/profile/`+data)
         dispatch( {
             type: DELETE_PROFILE,
             payload: res.data
@@ -72,7 +72,7 @@ export const updateProfile = data => async dispatch => {
     const user = JSON.parse(localStorage.getItem('profile'));
     const userId = user.result._id;
     try{
-        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/profile/`+userId, data)
+        const res = await axios.put(`https://sleepy-reaches-43026.herokuapp.com/Final_year/profile/`+userId, data)
         dispatch( {
             type: UPDATE_PROFILE,
             payload: res.data
