@@ -32,7 +32,7 @@ class Skills extends Component {
   }
   
   componentWillUnmount(){
-    console.log('this.prop.skills');
+    console.log('this.prop.skills from will unmount');
     console.log(this.props.Skills);
 
   }
