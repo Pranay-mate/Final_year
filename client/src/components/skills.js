@@ -22,11 +22,9 @@ class Skills extends Component {
     });
   }
 
-  componentDidUpdate(){  
+  componentDidUpdate(prevProps){  
     //this.props.getSkills();
-    this.setState({
-      skills: this.props.Skills
-    });
+    console.log(prevProps)
 
   }
 
