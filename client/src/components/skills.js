@@ -16,7 +16,7 @@ class Skills extends Component {
     formState: 'ADD'
   }
   componentDidMount(){  
-      //this.props.getSkills();
+      this.props.getSkills();
       this.setState({
         skills: this.props.Skills
     });
