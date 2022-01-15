@@ -24,10 +24,10 @@ class Skills extends Component {
 
   componentDidUpdate(prevProps){  
     if(typeof(this.props.Skills.skills) == 'undefined' || this.props.Skills.skills.length == 0){
-      this.props.getSkills();
-      this.setState({
-        skills: this.props.Skills
-      });
+      // this.props.getSkills();
+      // this.setState({
+      //   skills: this.props.Skills
+      // });
       console.log('leng');
       console.log(prevProps.Skills.skill);
       console.log('this.prop.skills');
