@@ -23,19 +23,18 @@ class Skills extends Component {
   }
 
   componentDidUpdate(prevProps){  
-    // if(typeof(this.props.Skills.skills) == 'undefined' || this.props.Skills.skills.length == 0){
-      // this.props.getSkills();
-      // this.setState({
-      //   skills: this.props.Skills
-      // });
+    if(typeof(prevProps.Skills.skills.length) == 'undefined' || prevProps.Skills.skills.length  == 0){
+      this.props.getSkills();
+      this.setState({
+        skills: this.props.Skills
+      });
       console.log('leng');
       console.log(prevProps.Skills);
       console.log(prevProps.Skills.skills);
       console.log(prevProps.Skills.skills.length);
-      console.log(prevProps.Skills['skill']);
       console.log('this.prop.skills');
       console.log(this.props.Skills.skills);
-    // }
+    }
     
   }
   
