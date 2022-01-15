@@ -20,13 +20,20 @@ class Skills extends Component {
       this.setState({
         skills: this.props.Skills
     });
-    
+  }
+
+  componentDidUpdate(){  
+    this.props.getSkills();
+    this.setState({
+      skills: this.props.Skills
+    });
+
   }
 
   loader = () => {
     this.setState({isLoading: true});
     setInterval(() => {
-    window.location.reload(); 
+    //window.location.reload(); 
     this.setState({isLoading: false});
     }, 1000);
   }
