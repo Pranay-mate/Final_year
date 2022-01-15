@@ -16,14 +16,14 @@ class Skills extends Component {
     formState: 'ADD'
   }
   componentDidMount(){  
-      this.props.getSkills();
+      //this.props.getSkills();
       this.setState({
         skills: this.props.Skills
     });
   }
 
   componentDidUpdate(prevProps){  
-    if(typeof(this.props.Skills.skills) == 'undefined' || this.props.Skills.skills.length == 0){
+    // if(typeof(this.props.Skills.skills) == 'undefined' || this.props.Skills.skills.length == 0){
       // this.props.getSkills();
       // this.setState({
       //   skills: this.props.Skills
@@ -32,7 +32,7 @@ class Skills extends Component {
       console.log(prevProps.Skills.skill);
       console.log('this.prop.skills');
       console.log(this.props.Skills.skills);
-    }
+    // }
     
   }
   
