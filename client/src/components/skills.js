@@ -20,7 +20,7 @@ class Skills extends Component {
     this.setState({
       skills: this.props.Skills
     });
-    console.log(this.state.formState)
+    // console.log(this.state.formState)
   }
 
   componentDidUpdate(prevProps){  
@@ -36,8 +36,11 @@ class Skills extends Component {
         this.setState({formState: "ADD"});
       }
       this.setState({isLoading: false});
-    }, 1000);
-    console.log(this.state.formState)
+      this.props.getSkills();
+    }, 2000);
+    
+    // console.log(this.state.formState)
+
   }
   
   handleTextChange = event => {
@@ -51,7 +54,7 @@ class Skills extends Component {
     }else{
       this.setState({ newSkill:{[name]: value, userID: user.result._id }});
     }
-    console.log(this.state.formState)
+    // console.log(this.state.formState)
   }
 
   editSkill = (_id,_skill) => {
@@ -79,7 +82,7 @@ class Skills extends Component {
     }else{
       this.props.addSkills(this.state.newSkill);
     }
-    //this.props.getSkills();
+    this.props.getSkills();
     this.loader();
     console.log(this.state)
     console.log(this.state.formState)
@@ -90,8 +93,8 @@ class Skills extends Component {
  
     render(){
        const {skills} = this.props.Skills;
-       console.log(this.state.formState)
-
+       console.log(this.props.Skills)
+      
 
        return(
           <div className="form-container">
