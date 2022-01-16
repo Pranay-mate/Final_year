@@ -39,14 +39,14 @@ class Skills extends Component {
     }, 1000);
     console.log(this.state.formState)
   }
-
+  
   handleTextChange = event => {
     event.preventDefault();
     this.setState({skill: event.target.value})
     const user = JSON.parse(localStorage.getItem('profile'))
     const {target: {name, value}} = event;
-
-    if(this.state.formState == 'UPDATE'){
+    
+    if(this.state.skillId != null){
       this.setState({ newSkill:{[name]: value, userID: user.result._id, skillId: this.state.skillId }});
     }else{
       this.setState({ newSkill:{[name]: value, userID: user.result._id }});
@@ -57,35 +57,35 @@ class Skills extends Component {
   editSkill = (_id,_skill) => {
     this.setState({skillId: _id }); //for add ID in html
     this.setState({ skill: _skill }); //for add skill in input
-
+    
     this.setState({ newSkill:{skillId: _id} });
     this.setState({formState: "UPDATE"});
     console.log(this.state.formState)
   };
-
+  
   deleteSkill = (_id) => {
     this.setState({ deleteSkill: _id });
     this.props.deleteSkills(_id);
     this.loader();
     console.log(this.state.formState)
   };
-
-
+  
+  
   handleOnSubmit = event => {
     event.preventDefault();
     const skillID = $(".form_container.skill").attr('id');
     if (typeof(skillID) != 'undefined' && skillID != '') {
-     this.props.updateSkills(this.state.newSkill);
+      this.props.updateSkills(this.state.newSkill);
     }else{
-     this.props.addSkills(this.state.newSkill);
+      this.props.addSkills(this.state.newSkill);
     }
     //this.props.getSkills();
     this.loader();
     console.log(this.state)
     console.log(this.state.formState)
-
     this.setState({skillId: null }); //for rm ID in html
     this.setState({ skill: '' }); //for rm skill in input
+    
   }
  
     render(){
