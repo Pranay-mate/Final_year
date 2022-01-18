@@ -20,8 +20,25 @@ class Profile extends Component {
   componentDidMount(){
     this.props.getProfile()
     this.setState({profiles: this.props.Profile});
-
     this.setState({isLoading: false})
+  }
+  
+  componentDidUpdate(prevProps){  
+    if(typeof(prevProps.Profile.profiles.length) != 'undefined' && this.props.Profile.profiles.length  == 0){
+      this.props.getProfile();
+    }
+  }
+  
+  loader = () => {
+    this.setState({isLoading: true});
+    setInterval(() => {
+      if(this.state.formState == 'UPDATE'){
+        this.setState({formState: "ADD"});
+      }
+      this.setState({isLoading: false});
+      this.props.getProfile();
+    }, 2000);
+
   }
 
   handleTextChange = event => {
@@ -37,8 +54,6 @@ class Profile extends Component {
       }else{
         this.setState({ newProfile:{...this.state.newProfile, [name]: value, userID: user.result._id }, [name]: value});
       }
-  
-      console.log(this.state.newProfile)
   }
 
   handleOnSubmit = event => {
@@ -52,8 +67,9 @@ class Profile extends Component {
     }
     this.props.getProfile();
     this.loader();
-    console.log(this.state)
+    // console.log(this.state)
 
+    this.setState({profileID: null, Fname: '',  Mname: '', Lname: '', EmailId: '', JobTitle: '', ContactNumber: '', Address: '' }); //for add language in input
   }
 
   editProfile = (_profile) => {
@@ -62,20 +78,12 @@ class Profile extends Component {
     this.setState({ newProfile:{ profileID: _profile._id} });
     this.setState({formState: "UPDATE"});
 
-    console.log(this.state.newProfile)
   };
 
       deleteProfile = (_id) => {
         this.props.deleteProfile(_id);
         this.loader();
        
-      }
-      loader = () => {
-        this.setState({isLoading: true});
-        setInterval(() => {
-        window.location.reload(); 
-        this.setState({isLoading: false});
-        }, 2000);
       }
   
    
@@ -88,7 +96,7 @@ class Profile extends Component {
                 <CircularProgress color="inherit" />
               </Backdrop>
                 <Paper className='paper'>
-                <h3>{this.state.formState} PROFILE</h3>
+                <h3>{this.state.profileID != null ? 'UPDATE' : 'ADD'} PROFILE</h3>
                 <form autoComplete="off"  className='fomr form_container profile' id={this.state.profileID} onSubmit={this.handleOnSubmit} >
                     <TextField name="Fname" InputLabelProps={{ shrink: true }} variant="outlined" label="First Name" fullWidth margin="dense" value={this.state.Fname}  onChange={this.handleTextChange} />
                     <TextField name="Mname" InputLabelProps={{ shrink: true }} variant="outlined" label="Middle Name" fullWidth margin="dense" value={this.state.Mname}  onChange={this.handleTextChange} />

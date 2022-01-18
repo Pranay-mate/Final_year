@@ -34,22 +34,36 @@ class Languages extends Component {
     componentDidMount(){
       this.props.getLanguage()
       this.setState({languages: this.props.Languages});
+      this.setState({isLoading: false})
 
+    }
+
+    componentDidUpdate(prevProps){  
+      if(typeof(prevProps.Languages.languages.length) != 'undefined' && this.props.Languages.languages.length  == 0){
+        this.props.getLanguage();
+      }
+    }
+
+    loader = () => {
+      this.setState({isLoading: true});
+      setInterval(() => {
+        if(this.state.formState == 'UPDATE'){
+          this.setState({formState: "ADD"});
+        }
+        this.setState({isLoading: false});
+        this.props.getLanguage();
+      }, 2000);
     }
 
     handleChange = event => {
       console.log(event);
       const user = JSON.parse(localStorage.getItem('profile'));
       const {target: {name, value}} = event;
-      //this.setState({ [name]: value, _id: user.result._id });
-      //console.log(value)
       if(this.state.formState == 'UPDATE'){
         this.setState({ newLanguage:{[name]: value, userID: user.result._id, languageID: this.state.languageID }, [name]: value});
       }else{
         this.setState({ newLanguage:{...this.state.newLanguage, [name]: value, userID: user.result._id }, [name]: value});
       }
-  
-      console.log(this.state)
     };
   
     handleOnSubmit = event => {
@@ -63,7 +77,8 @@ class Languages extends Component {
       }
       this.props.getLanguage();
       this.loader();
-      console.log(this.state)
+
+      this.setState({languageID: null, Language: '',  Proficiency: '' }); //for add language in input
   
     }
 
@@ -72,43 +87,27 @@ class Languages extends Component {
 
       this.setState({ newLanguage:{ languageID: _id} });
       this.setState({formState: "UPDATE"});
-     // $('input[name="Language"]').val(_language).trigger('change');
-
-      console.log(this.state.Language)
     };
    
     deleteLanguage = (_id) => {
       this.setState({ deleteLanguage: _id });
-    this.props.deleteLanguage(_id);
+      this.props.deleteLanguage(_id);
       this.loader();
-    }
-
-
-    loader = () => {
-      this.setState({isLoading: true});
-      setInterval(() => {
-      window.location.reload(); 
-      this.setState({isLoading: false});
-      }, 2000);
     }
 
     render(){
       console.log(this.props)
       const {languages} = this.props.Languages;
       const LocalLanguages = ConstData.[0];
-      console.log(LocalLanguages.Languages)
-      console.log(LocalLanguages.Proficiency)
 
-     
-         
-        return(
+      return(
             <div className="form-container">
               
               <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
                 <CircularProgress color="inherit" />
               </Backdrop>
                 <Paper className='paper'>
-                <h3>{this.state.formState} LANGUAGE</h3>
+                <h3>{this.state.languageID!=null ? 'UPDATE': 'ADD'} LANGUAGE</h3>
                 
                 <form autoComplete="off" noValidate className='fomr form_container language' id={this.state.languageID} onSubmit={this.handleOnSubmit}>
                 <Typography variant="h6"></Typography>

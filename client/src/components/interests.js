@@ -17,12 +17,31 @@ class Interests extends Component {
     newInterest: [],
     formState: 'ADD'
   };
+
   componentDidMount(){
     this.props.getInterests();
     this.setState({
       interests: this.props.Interests
     });
   }
+
+  componentDidUpdate(prevProps){  
+    if(typeof(prevProps.Interests.interests.length) != 'undefined' && this.props.Interests.interests.length  == 0){
+      this.props.getInterests();
+    }
+  }
+
+  loader = () => {
+    this.setState({isLoading: true});
+    setInterval(() => {
+      if(this.state.formState == 'UPDATE'){
+        this.setState({formState: "ADD"});
+      }
+      this.setState({isLoading: false});
+      this.props.getInterests();
+    }, 2000);
+  }
+
   handleTextChange = event => {
 
     event.preventDefault();
@@ -35,8 +54,6 @@ class Interests extends Component {
     }else{
       this.setState({ newInterest:{[name]: value, userID: user.result._id }});
     }
-
-    console.log(this.state)
   }
 
   handleOnSubmit = event => {
@@ -49,8 +66,10 @@ class Interests extends Component {
     }
     this.props.getInterests();
     this.loader();
-    console.log(this.state)
+
+    this.setState({  interestID: null, interest: '' });
   }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.checked });
   };
@@ -68,19 +87,9 @@ class Interests extends Component {
     this.setState({ deleteInterest: _id });
     this.props.deleteInterest(_id);
     this.setState({open: false});
-
     this.loader();
   };
   
-
-  loader = () => {
-    this.setState({isLoading: true});
-    setInterval(() => {
-    window.location.reload(); 
-    this.setState({isLoading: false});
-    }, 1000);
-  }
- 
     render(){
       const {interests} = this.props.Interests;
 
@@ -90,7 +99,7 @@ class Interests extends Component {
                 <CircularProgress color="inherit" />
               </Backdrop>
             <Paper className='paper'>
-            <h3>{this.state.formState} INTEREST</h3>
+            <h3>{this.state.interestID!=null? 'UPDATE':'ADD'} INTEREST</h3>
             <form autoComplete="off" noValidate className='fomr form_container interest' id={this.state.interestID} onSubmit={this.handleOnSubmit}>
               <Typography variant="h6"></Typography>
                 <TextField InputLabelProps={{ shrink: true }} name="interest" variant="outlined" label="interest" fullWidth margin="dense" value={this.state.interest}  onChange={this.handleTextChange} />

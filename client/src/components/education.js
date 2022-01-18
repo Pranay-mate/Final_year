@@ -22,14 +22,30 @@ class Education extends Component {
     };
     componentDidMount(){
       this.props.getEducation()
-      this.setState({projects: this.props.Project});
-  
+      this.setState({educations: this.props.Education});
       this.setState({isLoading: false})
+    }
+
+    componentDidUpdate(prevProps){  
+      if(typeof(prevProps.Education.educations.length) != 'undefined' && this.props.Education.educations.length  == 0){
+        this.props.getEducation();
+      }
+    }
+
+    loader = () => {
+      this.setState({isLoading: true});
+      setInterval(() => {
+        if(this.state.formState == 'UPDATE'){
+          this.setState({formState: "ADD"});
+        }
+        this.setState({isLoading: false});
+        this.props.getEducation();
+      }, 2000);
+  
     }
   
     handleTextChange = event => {
       event.preventDefault();
-
       const user = JSON.parse(localStorage.getItem('profile'))
         const {target: {name, value}} = event;
         this.setState({ [name]: value, _id: user.result._id });
@@ -40,8 +56,6 @@ class Education extends Component {
         }else{
           this.setState({ newEducation:{...this.state.newEducation, [name]: value, userID: user.result._id }, [name]: value});
         }
-    
-        console.log(this.state.newEducation)
     }
   
     handleOnSubmit = event => {
@@ -55,8 +69,8 @@ class Education extends Component {
       }
       this.props.getEducation();
       this.loader();
-      console.log(this.state)
-  
+
+      this.setState({  educationID: null,  Program: '',  Institude: '', SDate: '', EDate: '', MarksObtained: ''});
     }
   
     checkboxClick = event => {
@@ -74,19 +88,11 @@ class Education extends Component {
       this.setState({ newEducation:{ educationID: _education._id} });
       this.setState({formState: "UPDATE"});
   
-      console.log(this.state.newEducation)
     };
 
     deleteEducation = (_id) => {
       this.props.deleteEducation(_id);
       this.loader();
-    }
-    loader = () => {
-      this.setState({isLoading: true});
-      setInterval(() => {
-      window.location.reload(); 
-      this.setState({isLoading: false});
-      }, 2000);
     }
   
    
@@ -99,7 +105,7 @@ class Education extends Component {
                 <CircularProgress color="inherit" />
               </Backdrop>
                 <Paper className='paper'>
-                 <h3>{this.state.formState} EDUCATION</h3>
+                 <h3>{this.state.educationID != null ? 'UPDATE': "ADD"} EDUCATION</h3>
 
                   <form autoComplete="off" noValidate className='fomr form_container education' id={this.state.educationID} onSubmit={this.handleOnSubmit}>
                     <Typography variant="h6"></Typography>

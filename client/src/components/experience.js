@@ -29,6 +29,23 @@ class Experiences extends Component {
     this.setState({isLoading: false})
   }
 
+  componentDidUpdate(prevProps){  
+    if(typeof(prevProps.Experience.experiences.length) != 'undefined' && this.props.Experience.experiences.length  == 0){
+      this.props.getExperience();
+    }
+  }
+
+  loader = () => {
+    this.setState({isLoading: true});
+    setInterval(() => {
+      if(this.state.formState == 'UPDATE'){
+        this.setState({formState: "ADD"});
+      }
+      this.setState({isLoading: false});
+      this.props.getExperience();
+    }, 2000);
+  }
+
   handleTextChange = event => {
     const user = JSON.parse(localStorage.getItem('profile'))
       const {target: {name, value}} = event;
@@ -41,7 +58,6 @@ class Experiences extends Component {
         this.setState({ newExperience:{...this.state.newExperience, [name]: value, userID: user.result._id }, [name]: value});
       }
   
-      console.log(this.state.newExperience)
   }
 
   handleOnSubmit = event => {
@@ -55,7 +71,8 @@ class Experiences extends Component {
     }
     this.props.getExperience();
     this.loader();
-    console.log(this.state)
+
+    this.setState({experienceID: null, Title: '',  Workplace: '', SDate: '', EDate: '', WorkplaceAdd: '' , Achievements: '', ContactInfo: '' }); //for add language in input
 
   }
 
@@ -65,7 +82,6 @@ class Experiences extends Component {
     if(event.target.checked){
       this.setState({ newExperience:{ EDate: currDate }, });
     }
-    console.log(this.state)
   };
 
   editExperience = (_experience) => {
@@ -75,9 +91,6 @@ class Experiences extends Component {
     this.setState({ newExperience:{ experienceID: _experience._id} });
     
     this.setState({formState: "UPDATE"});
-
-    console.log(this.state)
-    console.log(this.state.newExperience)
   };
 
     deleteExperience = (_id) => {
@@ -85,13 +98,6 @@ class Experiences extends Component {
       this.props.deleteExperience(_id);
 
       this.loader();
-    }
-    loader = () => {
-      this.setState({isLoading: true});
-      setInterval(() => {
-      window.location.reload(); 
-      this.setState({isLoading: false});
-      }, 2000);
     }
     
     render(){
@@ -104,7 +110,7 @@ class Experiences extends Component {
                   <CircularProgress color="inherit" />
                 </Backdrop>
                 <Paper className='paper'>
-               <h3>{this.state.formState} EXPERIENCE</h3>
+               <h3>{this.state.experienceID != null ? 'UPDATE': 'ADD'} EXPERIENCE</h3>
 
                 <form autoComplete="off" noValidate className='fomr form_container experience' id={this.state.experienceID} onSubmit={this.handleOnSubmit}>
                   <Typography variant="h6"></Typography>

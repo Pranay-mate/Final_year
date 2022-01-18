@@ -24,8 +24,24 @@ class Projects extends Component {
   componentDidMount(){
     this.props.getProjects()
     this.setState({projects: this.props.Project});
-
     this.setState({isLoading: false})
+  }
+
+  componentDidUpdate(prevProps){  
+    if(typeof(prevProps.Project.projects.length) != 'undefined' && this.props.Project.projects.length  == 0){
+      this.props.getProjects();
+    }
+  }
+
+  loader = () => {
+    this.setState({isLoading: true});
+    setInterval(() => {
+      if(this.state.formState == 'UPDATE'){
+        this.setState({formState: "ADD"});
+      }
+      this.setState({isLoading: false});
+      this.props.getProjects();
+    }, 2000);
   }
 
   handleTextChange = event => {
@@ -39,8 +55,6 @@ class Projects extends Component {
       }else{
         this.setState({ newProject:{...this.state.newProject, [name]: value, userID: user.result._id }, [name]: value});
       }
-  
-      console.log(this.state.newProject)
   }
 
   handleOnSubmit = event => {
@@ -54,7 +68,8 @@ class Projects extends Component {
     }
     this.props.getProjects();
     this.loader();
-    console.log(this.state)
+
+    this.setState({projectID: null, ProjectName: '',  Description: '', SDate: '', EDate: '' }); //for add language in input
 
   }
 
@@ -64,7 +79,6 @@ class Projects extends Component {
     if(event.target.checked){
       this.setState({ newProject:{ EDate: currDate }, });
     }
-    console.log(this.state)
   };
 
   editProject = (_project) => {
@@ -73,7 +87,6 @@ class Projects extends Component {
     this.setState({ newProject:{ projectID: _project._id} });
     this.setState({formState: "UPDATE"});
 
-    console.log(this.state.newProject)
   };
 
   deleteProject = (_id) => {
@@ -82,18 +95,9 @@ class Projects extends Component {
     this.props.deleteProjects(_id);
     this.loader();
   }
-  loader = () => {
-    this.setState({isLoading: true});
-    setInterval(() => {
-    window.location.reload(); 
-    this.setState({isLoading: false});
-    }, 2000);
-  }
-  
   
   render(){
     const {projects} = this.props.Project;
-    console.log(projects);
 
       return(
           <div className="form-container">
@@ -101,7 +105,7 @@ class Projects extends Component {
                 <CircularProgress color="inherit" />
               </Backdrop>
               <Paper className='paper'>
-              <h3>{this.state.formState} PROJECT</h3>
+              <h3>{this.state.projectID != null ? 'UPDATE':'ADD'} PROJECT</h3>
 
               <form autoComplete="off" noValidate className='fomr form_container projects' id={this.state.projectID} onSubmit={this.handleOnSubmit}>
                 <Typography variant="h6"></Typography>

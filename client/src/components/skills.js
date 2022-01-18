@@ -9,6 +9,8 @@ import $ from 'jquery';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Skills extends Component {
   state= {
@@ -63,14 +65,14 @@ class Skills extends Component {
     
     this.setState({ newSkill:{skillId: _id} });
     this.setState({formState: "UPDATE"});
-    console.log(this.state.formState)
+    // console.log(this.state.formState)
   };
   
   deleteSkill = (_id) => {
     this.setState({ deleteSkill: _id });
     this.props.deleteSkills(_id);
     this.loader();
-    console.log(this.state.formState)
+    // console.log(this.state.formState)
   };
   
   
@@ -84,8 +86,8 @@ class Skills extends Component {
     }
     this.props.getSkills();
     this.loader();
-    console.log(this.state)
-    console.log(this.state.formState)
+    // console.log(this.state)
+    // console.log(this.state.formState)
     this.setState({skillId: null }); //for rm ID in html
     this.setState({ skill: '' }); //for rm skill in input
     
@@ -93,11 +95,14 @@ class Skills extends Component {
  
     render(){
        const {skills} = this.props.Skills;
-       console.log(this.props.Skills)
+      //  console.log(this.props.Skills)
       
 
        return(
           <div className="form-container">
+            <Backdrop className='' open={this.state.isLoading} style={{ 'z-index': "1201"}} >
+                <CircularProgress color="inherit" />
+              </Backdrop>
             <Paper className='paper'>
             <h3>{this.state.skillId != null ? 'UPDATE': 'ADD'} SKILL</h3>
             <form autoComplete="off" noValidate className='fomr' onSubmit={this.handleOnSubmit}>

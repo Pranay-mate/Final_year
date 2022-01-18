@@ -25,11 +25,27 @@ class Certificates extends Component {
     componentDidMount(){
       this.props.getCertificate()
       this.setState({certificates: this.props.Certificate});
+      this.setState({isLoading: false})
     }
     
+    componentDidUpdate(prevProps){  
+      if(typeof(prevProps.Certificate.certificates.length) != 'undefined' && this.props.Certificate.certificates.length  == 0){
+        this.props.getCertificate();
+      }
+    }
 
+    loader = () => {
+      this.setState({isLoading: true});
+      setInterval(() => {
+        if(this.state.formState == 'UPDATE'){
+          this.setState({formState: "ADD"});
+        }
+        this.setState({isLoading: false});
+        this.props.getCertificate();
+      }, 2000);
+    }
+    
     handleTextChange = event => {
-
       const user = JSON.parse(localStorage.getItem('profile'))
       const {target: {name, value}} = event;
       this.setState({ [name]: value, _id: user.result._id });
@@ -40,8 +56,6 @@ class Certificates extends Component {
       }else{
         this.setState({ newCertificate:{...this.state.newCertificate, [name]: value, userID: user.result._id }, [name]: value});
       }
-  
-      console.log(this.state.newCertificate)
     };
 
     handleOnSubmit = event => {
@@ -55,8 +69,8 @@ class Certificates extends Component {
       }
       this.props.getCertificate();
       this.loader();
-      console.log(this.state)
-  
+
+      this.setState({certificateID: null, CertiName: '',  Description: '', SDate: '', EDate: '' }); //for add language in input
     }
 
     checkboxClick = event => {
@@ -79,17 +93,10 @@ class Certificates extends Component {
 
     deleteCertificate = (_id) => {
       this.setState({ deleteCertificate: _id });
-
       this.props.deleteCertificate(_id);
       this.loader();
     }
-    loader = () => {
-      this.setState({isLoading: true});
-      setInterval(() => {
-      window.location.reload(); 
-      this.setState({isLoading: false});
-      }, 2000);
-    }
+
     render(){
       const loaderCss = {
         'z-index': "1201",
@@ -102,7 +109,7 @@ class Certificates extends Component {
                 <CircularProgress color="inherit" />
               </Backdrop>
               <Paper className='paper'>
-              <h3>{this.state.formState} CERTIFICATE</h3>
+              <h3>{this.state.certificateID !=null ? 'UPDATE': 'ADD'} CERTIFICATE</h3>
 
                 <form autoComplete="off" noValidate className='fomr form_container certificate' onSubmit={this.handleOnSubmit} id={this.state.certificateID}>
                 <Typography variant="h6"></Typography>
