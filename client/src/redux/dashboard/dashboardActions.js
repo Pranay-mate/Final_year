@@ -15,7 +15,6 @@ export const getScore = () => async dispatch => {
             type: GET_SCORE,
             payload: res.data
         })
-
     }
     catch(e){
         dispatch( { 
@@ -39,7 +38,6 @@ export const getSkillsData = skillsData => async dispatch => {
             type: GET_SKILLS_DATA,
             payload: res.data
         })
-
     }
     catch(e){
         dispatch( { 
