@@ -1,4 +1,4 @@
-import { GET_SCORE, ERROR_DASHBOARD } from './dashboardTypes.js'
+import { GET_SCORE, ERROR_DASHBOARD,GET_SKILLS_DATA } from './dashboardTypes.js'
 
 const initialState = {
     dashboard:[],
@@ -15,6 +15,9 @@ export default function(state = initialState, action){
             dashboard:action.payload,
             loading:false
         };
+        case GET_SKILLS_DATA:
+            const dashboard = state.dashboard.concat(action.payload);
+            return {...state, dashboard};
         case ERROR_DASHBOARD:
             return{
                 ...state,
