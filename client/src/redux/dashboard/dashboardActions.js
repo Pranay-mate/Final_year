@@ -29,6 +29,7 @@ export const getSkillsData = skillsData => async dispatch => {
     if (user == null){
         window.location.href = '/auth';
     }
+    
     const userId = user.result._id;
     try{
         const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/Final_year/score/`,skillsData)

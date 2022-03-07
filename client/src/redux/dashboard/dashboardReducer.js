@@ -15,6 +15,7 @@ export default function(state = initialState, action){
             dashboard:action.payload,
             loading:false
         };
+        
         case GET_SKILLS_DATA:
             const dashboard = state.dashboard.concat(action.payload);
             return {...state, dashboard};

@@ -36,7 +36,6 @@ class Home extends Component {
     'MEAN Stack Developer',
     'UI/UX Engineer'
   ];
-
   createAndDownloadPdf = () => {
     const user = JSON.parse(localStorage.getItem('profile'));
     
