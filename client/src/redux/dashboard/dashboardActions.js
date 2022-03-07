@@ -32,7 +32,7 @@ export const getSkillsData = skillsData => async dispatch => {
     }
     const userId = user.result._id;
     try{
-        const res = await axios.post(`http://localhost:5000/Final_year/score/`,skillsData)
+        const res = await axios.post(`https://sleepy-reaches-43026.herokuapp.com/Final_year/score/`,skillsData)
         toast.success("Your skills score according to your interested job profile is "+res.data[0].skillsData+" %");
         console.log(res.data);
         dispatch( {
