@@ -104,15 +104,21 @@ class Home extends Component {
                     value={this.state.JobProfile}
                     onChange={this.changeJobProfile}
                   >
-                    <MenuItem value={1}>Front-End Developer</MenuItem>
-                    <MenuItem value={2}>Back-End Developer</MenuItem>
-                    <MenuItem value={3}>Full Stack Developer</MenuItem>
-                    <MenuItem value={4}>Software tester</MenuItem>
-                    <MenuItem value={5}>DevOps Engineer</MenuItem>
-                    <MenuItem value={6}>System Administrator</MenuItem>
-                    <MenuItem value={7}>MERN Stack Developer</MenuItem>
-                    <MenuItem value={8}>MEAN Stack Developer</MenuItem>
-                    <MenuItem value={9}>UI/UX Engineer</MenuItem>
+                    <MenuItem value={1}> Software Engineer</MenuItem>
+                    <MenuItem value={2}> Web Developer</MenuItem>
+                    <MenuItem value={3}> MERN stack developer</MenuItem>
+                    <MenuItem value={4}> MERN stack developer</MenuItem>
+                    <MenuItem value={5}> MEAN stack developer</MenuItem>
+                    <MenuItem value={6}> Php/Laravel Developer</MenuItem>
+                    <MenuItem value={7}> Cloud Architect</MenuItem>
+                    <MenuItem value={8}> Lead programmer</MenuItem>
+                    <MenuItem value={9}> Systems Analyst</MenuItem>
+                    <MenuItem value={10}>Information Security Analyst</MenuItem>
+                    <MenuItem value={11}>Project Manager</MenuItem>
+                    <MenuItem value={12}>System Admin</MenuItem>
+                    <MenuItem value={13}>Mobile Developer</MenuItem>
+                    <MenuItem value={14}>Java Developers</MenuItem>
+                    <MenuItem value={15}>Data Scientist</MenuItem>
                   </Select>
                   <FormHelperText>Interested Job Profles</FormHelperText>
                 </FormControl>
