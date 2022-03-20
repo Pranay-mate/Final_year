@@ -23,7 +23,10 @@ export default function(state = initialState, action){
                 certificates:action.payload
             }
         case DELETE_CERTIFICATE:
-        return certificates.filter((certificates) => certificates._id !== action.payload);
+            return{
+                ...state,
+                certificates:action.payload
+            }
         default: return state
     }
 

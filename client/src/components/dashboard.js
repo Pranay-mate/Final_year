@@ -45,7 +45,6 @@ class Home extends Component {
       .then((res) => {
         // console.log(res)
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
         saveAs(pdfBlob, 'Resume.pdf');
       })
   }
@@ -122,7 +121,8 @@ class Home extends Component {
                 <Grid item xs={4} md={2} className='prog'>
                   {/* <h1 className="float-right pl-2" style={{fontSize: "2.5em"}}>{score}%</h1> */}
                   <div className="pdfDownload">
-                    <Button variant="contained" color="primary" startIcon={<Download />} onClick={this.createAndDownloadPdf} >Download</Button>
+                  { (typeof(pdfData) !== 'undefined' ) ? <Button variant="contained" color="primary" startIcon={<Download />} onClick={this.createAndDownloadPdf} >Download</Button> : null }
+                    
                   </div>
                 </Grid>
                 <Grid item xs={4} md={1} className=''>
@@ -138,7 +138,7 @@ class Home extends Component {
                 PDF
               </Button> */}
               <div style={{marginTop: "1em"}}>
-              { pdfData ? <Pdf pdfData= {pdfData}></Pdf> : null}
+              { (typeof(pdfData) !== 'undefined' ) ? <Pdf pdfData= {pdfData}></Pdf> : null }
               </div>
           </div>
         );

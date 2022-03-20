@@ -24,7 +24,10 @@ export default function(state = initialState, action){
                 languages:action.payload
             }
         case DELETE_LANGUAGE:
-            return languages.filter((languages) => languages._id !== action.payload);
+            return{
+                ...state,
+                languages:action.payload
+            }
         default: return state
     }
 

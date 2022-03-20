@@ -24,7 +24,10 @@ export default function(state = initialState, action){
                 interests:action.payload
             }
         case DELETE_INTEREST:
-            return interests.filter((interests) => interests._id !== action.payload);
+            return{
+                ...state,
+                interests:action.payload
+            }
         default: return state
     }
 

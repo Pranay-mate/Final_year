@@ -24,7 +24,6 @@ class Projects extends Component {
   componentDidMount(){
     this.props.getProjects()
     this.setState({projects: this.props.Project});
-    this.setState({isLoading: false})
   }
 
   componentDidUpdate(prevProps){  
@@ -43,6 +42,8 @@ class Projects extends Component {
       this.props.getProjects();
     }, 2000);
   }
+
+  
 
   handleTextChange = event => {
     const user = JSON.parse(localStorage.getItem('profile'))

@@ -24,7 +24,10 @@ export default function(state = initialState, action){
                 educations:action.payload
             }
         case DELETE_EDUCATIOIN:
-            return educations.filter((educations) => educations._id !== action.payload);
+            return{
+                ...state,
+                educations:action.payload
+            }
         default: return state
     }
 

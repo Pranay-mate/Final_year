@@ -8,9 +8,9 @@ import Download from '@material-ui/icons/CloudDownload';
 const ref = React.createRef();
 const options = {
 };
-var pranay = 'Pranay';
+
+
 const PDF = (props) => {
-  
   return (
     <>
       <div className="Post pdfDiv p-4" >
@@ -22,17 +22,14 @@ const PDF = (props) => {
       <div class="portfolio" >
       <section id="main" >
       <header id="title">
-        <h1>{props.pdfData.Profiles[0].Fname} {props.pdfData.Profiles[0].Mname} {props.pdfData.Profiles[0].Lname}</h1>
-        <span class="subtitle">{props.pdfData.Profiles[0].JobTitle}</span>
+        <h1>{typeof(props.pdfData.Profiles[0]) === 'undefined' ? null : props.pdfData.Profiles[0].Fname} {typeof(props.pdfData.Profiles[0]) === 'undefined' ? null : props.pdfData.Profiles[0].Mname} {typeof(props.pdfData.Profiles[0]) === 'undefined' ? null : props.pdfData.Profiles[0].Lname}</h1>
+        <span class="subtitle">{typeof(props.pdfData.Profiles[0]) === 'undefined' ? null : props.pdfData.Profiles[0].JobTitle}</span>
       </header>
+      <hr></hr>
       <section class="main-block">
         <h2>
-          <i class="fa fa-suitcase"></i> Experiences
+          <i class="fa fa-suitcase"></i> Experience
         </h2>
-        {/* {props.pdfData.Experiences[0].Title} */}
-        {/* {props.pdfData.Experiences.map(({ experience }) =>
-            <h1>{experienc}</h1>
-        )} */}
 
         {props.pdfData.Experiences.map(experience =>
           <section class="blocks">
@@ -47,20 +44,21 @@ const PDF = (props) => {
                 <span class="place">{experience.WorkPlace}</span>
                 <span class="location">{experience.WorkplaceAdd}</span>
               </header>
-              <div>
+              {/* <div>
                 <ul>
                   <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
                   <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
                 </ul>
-                </div>
+                </div> */}
             </div>
           </section>
             
         )}
       </section>
+      <hr></hr>
       <section class="main-block">
         <h2>
-          <i class="fa fa-folder-open"></i> Selected Projects
+          <i class="fa fa-folder-open"></i> Projects
         </h2>
         {props.pdfData.Projects.map(project =>
           <section class="blocks">
@@ -72,7 +70,6 @@ const PDF = (props) => {
             <div class="details">
               <header>
                 <h3>{project.ProjectName}</h3>
-                <span class="place">Some workplace</span>
               </header>
               <div>
                 <ul>
@@ -84,6 +81,7 @@ const PDF = (props) => {
         )}
        
       </section>
+      <hr></hr>
       <section class="main-block concise">
         <h2>
           <i class="fa fa-graduation-cap"></i> Education
@@ -108,19 +106,21 @@ const PDF = (props) => {
         
       </section>
     </section>
+    <hr></hr>
     <aside id="sidebar">
-      <div class="side-block" id="contact">
+      <div class="side-block" id="contact" >
         <h1>
           Contact Info
         </h1>
         <ul>
           {/* <li><i class="fa fa-globe"></i> johndoe.gtld</li>
           <li><i class="fa fa-linkedin"></i> linkedin.com/in/john</li> */}
-          
-          {props.pdfData.Profiles[0].EmailId != null ? <li><i class="fa fa-envelope"></i> {props.pdfData.Profiles[0].EmailId}</li> : null}
-          {props.pdfData.Profiles[0].ContactNumber != null ? <li><i class="fa fa-phone"></i> {props.pdfData.Profiles[0].ContactNumber}</li> : null}
+         
+          {typeof(props.pdfData.Profiles) === 'undefined' ? null : <li><i class="fa fa-envelope"></i> {props.pdfData.Profiles[0].EmailId}</li> }
+          {typeof(props.pdfData.Profiles)  === 'undefined' ? null : <li><i class="fa fa-phone"></i> {props.pdfData.Profiles[0].ContactNumber}</li> }
         </ul>
       </div>
+      <hr></hr>
       <div class="side-block" id="skills">
         <h1>
           Skills

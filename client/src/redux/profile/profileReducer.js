@@ -25,7 +25,10 @@ export default function(state = initialState, action){
                 profiles:action.payload
             }
         case DELETE_PROFILE:
-            return profiles.filter((profiles) => profiles._id !== action.payload);
+            return{
+                ...state,
+                profiles:action.payload
+            }
         default: return state
     }
 

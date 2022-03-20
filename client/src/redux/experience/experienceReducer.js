@@ -23,7 +23,10 @@ export default function(state = initialState, action){
                 experiences:action.payload
             }
         case DELETE_EXPERIENCE:
-            return experiences.filter((experiences) => experiences._id !== action.payload);
+            return{
+                ...state,
+                experiences:action.payload
+            }
         default: return state
     }
 
