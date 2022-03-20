@@ -107,16 +107,14 @@ class Home extends Component {
                     <MenuItem value={1}> Software Engineer</MenuItem>
                     <MenuItem value={2}> Web Developer</MenuItem>
                     <MenuItem value={3}> MERN stack developer</MenuItem>
-                    <MenuItem value={4}> MERN stack developer</MenuItem>
                     <MenuItem value={5}> MEAN stack developer</MenuItem>
                     <MenuItem value={6}> Php/Laravel Developer</MenuItem>
                     <MenuItem value={7}> Cloud Architect</MenuItem>
                     <MenuItem value={8}> Lead programmer</MenuItem>
                     <MenuItem value={9}> Systems Analyst</MenuItem>
-                    <MenuItem value={10}>Information Security Analyst</MenuItem>
                     <MenuItem value={11}>Project Manager</MenuItem>
                     <MenuItem value={12}>System Admin</MenuItem>
-                    <MenuItem value={13}>Mobile Developer</MenuItem>
+                    <MenuItem value={13}>Android Developer</MenuItem>
                     <MenuItem value={14}>Java Developers</MenuItem>
                     <MenuItem value={15}>Data Scientist</MenuItem>
                   </Select>
