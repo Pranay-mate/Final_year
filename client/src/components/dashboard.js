@@ -95,37 +95,14 @@ class Home extends Component {
                   <h1>Dashboard</h1>
                 </Grid>
                 <Grid item xs={2} md={2}>
-                <FormControl className='JobProfile'>
-                  <InputLabel id="demo-simple-select-helper-label">Job Profiles</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="JobProfile"
-                    name="JobProfile"
-                    value={this.state.JobProfile}
-                    onChange={this.changeJobProfile}
-                  >
-                    <MenuItem value={1}> Software Engineer</MenuItem>
-                    <MenuItem value={2}> Web Developer</MenuItem>
-                    <MenuItem value={3}> MERN stack developer</MenuItem>
-                    <MenuItem value={5}> MEAN stack developer</MenuItem>
-                    <MenuItem value={6}> Php/Laravel Developer</MenuItem>
-                    <MenuItem value={7}> Cloud Architect</MenuItem>
-                    <MenuItem value={8}> Lead programmer</MenuItem>
-                    <MenuItem value={9}> Systems Analyst</MenuItem>
-                    <MenuItem value={11}>Project Manager</MenuItem>
-                    <MenuItem value={12}>System Admin</MenuItem>
-                    <MenuItem value={13}>Android Developer</MenuItem>
-                    <MenuItem value={14}>Java Developers</MenuItem>
-                    <MenuItem value={15}>Data Scientist</MenuItem>
-                  </Select>
-                  <FormHelperText>Interested Job Profles</FormHelperText>
-                </FormControl>
+                { (typeof(pdfData) !== 'undefined' ) ? <Button variant="contained" color="primary" startIcon={<Download />} onClick={this.createAndDownloadPdf} >Download</Button> : null }
+                
                 </Grid>
 
                 <Grid item xs={4} md={2} className='prog'>
                   {/* <h1 className="float-right pl-2" style={{fontSize: "2.5em"}}>{score}%</h1> */}
                   <div className="pdfDownload">
-                  { (typeof(pdfData) !== 'undefined' ) ? <Button variant="contained" color="primary" startIcon={<Download />} onClick={this.createAndDownloadPdf} >Download</Button> : null }
+                  { (typeof(pdfData) !== 'undefined' ) ? <FormControl className='JobProfile'><InputLabel id="demo-simple-select-helper-label">Job Profiles</InputLabel><Select labelId="demo-simple-select-helper-label" id="JobProfile" name="JobProfile" value={this.state.JobProfile} onChange={this.changeJobProfile}><MenuItem value={1}> Software Engineer</MenuItem><MenuItem value={2}> Web Developer</MenuItem><MenuItem value={3}> MERN stack developer</MenuItem><MenuItem value={5}> MEAN stack developer</MenuItem><MenuItem value={6}> Php/Laravel Developer</MenuItem><MenuItem value={7}> Cloud Architect</MenuItem><MenuItem value={8}> Lead programmer</MenuItem><MenuItem value={9}> Systems Analyst</MenuItem><MenuItem value={11}>Project Manager</MenuItem><MenuItem value={12}>System Admin</MenuItem><MenuItem value={13}>Android Developer</MenuItem><MenuItem value={14}>Java Developers</MenuItem><MenuItem value={15}>Data Scientist</MenuItem></Select><FormHelperText>Interested Job Profles</FormHelperText></FormControl> : null }
                     
                   </div>
                 </Grid>
