@@ -26,11 +26,10 @@ const PDF = (props) => {
         <span class="subtitle">{typeof(props.pdfData.Profiles[0]) === 'undefined' ? null : props.pdfData.Profiles[0].JobTitle}</span>
       </header>
       <hr></hr>
+      {props.pdfData.Experiences.length > 0 ?
+      <>
+      <h2><i class="fa fa-suitcase"></i> Experience </h2>
       <section class="main-block">
-        <h2>
-          <i class="fa fa-suitcase"></i> Experience
-        </h2>
-
         {props.pdfData.Experiences.map(experience =>
           <section class="blocks">
             <div class="date">
@@ -56,6 +55,11 @@ const PDF = (props) => {
         )}
       </section>
       <hr></hr>
+
+      </> : null}
+
+      {props.pdfData.Projects.length > 0 ?
+      <>
       <section class="main-block">
         <h2>
           <i class="fa fa-folder-open"></i> Projects
@@ -82,6 +86,10 @@ const PDF = (props) => {
        
       </section>
       <hr></hr>
+      </>: null}
+
+      {props.pdfData.Educations.length > 0 ?
+      <>
       <section class="main-block concise">
         <h2>
           <i class="fa fa-graduation-cap"></i> Education
@@ -105,8 +113,9 @@ const PDF = (props) => {
         )}
         
       </section>
-    </section>
     <hr></hr>
+      </>: null}
+    </section>
     <aside id="sidebar">
       <div class="side-block" id="contact" >
         <h1>
@@ -120,6 +129,8 @@ const PDF = (props) => {
           {typeof(props.pdfData.Profiles)  === 'undefined' ? null : <li><i class="fa fa-phone"></i> {props.pdfData.Profiles[0].ContactNumber}</li> }
         </ul>
       </div>
+      {props.pdfData.Skills.length > 0 ?
+      <>
       <hr></hr>
       <div class="side-block" id="skills">
         <h1>
@@ -131,6 +142,7 @@ const PDF = (props) => {
         )}
         </ul>
       </div>
+      </>: null}
       <div class="side-block" id="disclaimer">
         {/* This r&eacute;sum&eacute; was wholly typeset with HTML/CSS &mdash; see <code>git.io/vVSYL</code> */}
       </div>

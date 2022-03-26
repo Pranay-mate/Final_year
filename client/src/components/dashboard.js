@@ -119,7 +119,18 @@ class Home extends Component {
                 PDF
               </Button> */}
               <div style={{marginTop: "1em"}}>
-              { (typeof(pdfData) !== 'undefined' ) ? <Pdf pdfData= {pdfData}></Pdf> : null }
+              { (typeof(pdfData) !== 'undefined' ) ? <Pdf pdfData= {pdfData}></Pdf> :
+               <>
+               <h4>To start an effective resume, follow these steps:</h4> 
+               <ol>
+                <li>Gather your information</li>
+                <li>Create a Profile</li>
+                <li>Choose a resume introduction</li>
+                <li>Be consistent</li>
+                <li>Use industry-specific keywords</li>
+                <li>Focus on value</li>
+              </ol>
+              </>}
               </div>
           </div>
         );

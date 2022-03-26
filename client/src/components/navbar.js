@@ -94,10 +94,10 @@ function Navbar() {
                 <Typography className={classes.userName} variant="h6">{user?.result.name}</Typography>
                 <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
               </div>
-            ) : (
-              <Link to="/auth">
+              ) : (
+                <Link to="/auth">
                 <Button variant="contained" color="primary">Sign In</Button>
-              </Link>
+                </Link>
             )}
            
             </Toolbar>
@@ -177,12 +177,12 @@ function Navbar() {
                     <ListItemText primary="Interest" />
                 </ListItem>
                 </Link>
-                <Link to="/more" className="navlink">
-                <ListItem button primary="More">
+                <Link to="/" className="navlink">
+                <ListItem button primary="Dashboard">
                     <ListItemIcon>
                          <AiTwotoneThunderbolt />
                     </ListItemIcon>
-                    <ListItemText primary="More" />
+                    <ListItemText primary="Resume" />
                 </ListItem>
                 </Link>
             </List>
